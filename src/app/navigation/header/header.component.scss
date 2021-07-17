@@ -1,0 +1,11 @@
+mat-toolbar {
+  background-color: var(--background-color-1);
+  color: var(--color-1);
+  @media (min-width: 481px) and (max-width: 767px) {
+    background-color: var(--color-1);
+    color: var(--background-color-1);
+  }
+}
+hr {
+ opacity: 1; 
+}

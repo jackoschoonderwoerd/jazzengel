@@ -1,0 +1,54 @@
+<mat-nav-list>
+  <a
+    class="nav-list-item"
+    mat-list-item
+    routerLink="/home"
+    (click)="onClose()">
+    HOME
+  </a>
+
+  <a
+    class="nav-list-item"
+    mat-list-item
+    routerLink="/program"
+    (click)="onClose()">
+    <span>PROGRAM</span>
+  </a>
+
+  <a
+  *ngIf="(isAuth$ | async)"
+    class="nav-list-item"
+    mat-list-item
+    routerLink="/artists"
+    (click)="onClose()">
+    <span>ARTISTS</span>
+  </a>
+
+  <a
+    *ngIf="!(isAuth$ | async)"
+    class="nav-list-item"
+    mat-list-item
+    routerLink="/login"
+    (click)="onClose()">
+    LOGIN
+  </a>
+
+
+  <a
+    *ngIf="!(isAuth$ | async)"
+    class="nav-list-item"
+    mat-list-item
+    routerLink="/signup"
+    (click)="onClose()">
+    SIGNUP
+  </a>
+
+  <a
+    *ngIf="(isAuth$ | async)"
+    class="nav-list-item"
+    mat-list-item
+    (click)="onLogOut()">
+    <span>LOG OUT</span>
+  </a>
+
+</mat-nav-list>

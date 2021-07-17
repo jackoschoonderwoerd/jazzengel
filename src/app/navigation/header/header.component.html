@@ -1,0 +1,32 @@
+
+  <mat-toolbar fxLayout fxLayoutAlign="space-between">
+    <div 
+      class="toolbar-left" 
+      fxLayout 
+      fxLayoutAlign="center center"
+      (click)="onToggleSidenav()">
+      <!-- <mat-icon fxHide.gt-sm class="menu-icon" (click)="onOpenSidenav()">menu</mat-icon> -->
+      <fa-icon fxHide.gt-sm [icon]="faBars"></fa-icon>
+    </div>
+
+    <!-- <div class="spacer" fxFlex></div> -->
+
+    <div class="toolbar-right" fxLayout>
+
+      <div class="list-container" fxLayout fxLayoutAlign="center center" fxHide.lt-md>
+        <ul fxLayout fxLayoutGap="15px">
+          <li><a routerLinkActive="active-link" routerLink="/home">HOME</a></li>
+          <li *ngIf="(userEmail$ | async)">USER: {{ userEmail$ | async}}</li>
+          <li *ngIf="(isAdmin$ | async)">ADMIN: {{ isAdmin$ | async}}</li>
+          
+          <li><a routerLinkActive="active-link" routerLink="/program">PROGRAM</a></li>
+          <li *ngIf="(isAuth$ | async)"><a routerLinkActive="active-link" routerLink="/artists">ARTISTS</a></li>
+          <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="/login">LOGIN</a></li>
+          <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="/signup">SIGN UP</a></li>
+          <li *ngIf="(isAuth$ | async)" (click)="onLogOut()">LOG OUT</li>
+        </ul>
+      </div>
+    </div>
+  </mat-toolbar>
+  <!-- <hr> -->
+

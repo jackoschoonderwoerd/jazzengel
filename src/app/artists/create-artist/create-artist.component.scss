@@ -1,0 +1,48 @@
+.wrapper {
+  h1 {
+
+  }
+  .create-artist-form {
+    padding-top: 2rem;
+    max-width: 500px
+  }
+  mat-form-field {
+    .artist-id {
+
+    }
+  }
+  mat-form-field {
+    .name {
+      
+    }
+  }
+  mat-form-field {
+    .instrument {
+      
+    }
+  }
+  img {
+    width: 150px;
+  }
+  .file-selector-container {
+    background-color: #ccc;
+    margin: 5px 0 10px 0;
+    .file-input {
+
+    }
+  }
+  mat-form-field {
+    .biography-content {
+      font-family:monospace;
+      font-size: var(--rem-ms);
+    }
+  }
+  .upload-progress {
+    .progress-bar {
+
+    }
+  }
+  button {
+    margin: var(--rem-s) 0
+  }
+}

@@ -1,0 +1,13 @@
+mat-sidenav-container {
+    height: calc(100vh - 106px);
+    @media (min-width: 600px) {
+        height: calc(100vh - 114px);
+    }
+}
+
+@media (min-width: 600px){
+    /* Device = Most of the Smartphones Mobiles (Portrait) Screen = 320px to 479px */
+    main {
+      padding-top: 64px;
+    }
+  }

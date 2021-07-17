@@ -1,0 +1,26 @@
+<div class="wrapper"  *ngIf="booking$ | async; let booking">
+  <button (click)="onCloseShowcase()">close showcase</button>
+  <div class="booking-date">
+    <span>{{booking.date[0] | numbertomonth}} </span>
+    <span>{{ booking.date[1] }}, </span> 
+    <span>{{ booking.date[2] }}</span>
+  </div>
+  <div>{{booking.artist.name}}</div>
+  <div class="instrument">{{booking.artist.instrument}}</div>
+  <img [src]="booking.artist.imageUrl" alt="">
+  <div class="biography">
+    {{booking.artist.biography}}
+  </div>
+</div>
+<button (click)="onCloseShowcase()">close showcase</button>
+
+<!-- <div class="wrapper"  *ngIf="artist$ | async; let artist">
+  <button (click)="onCloseShowcase()">close showcase</button>
+  <div>{{artist.name}}</div>
+  <div class="instrument">{{artist.instrument}}</div>
+  <img [src]="artist.imageUrl" alt="">
+  <div class="biography">
+    {{artist.biography}}
+  </div>
+</div>
+<button (click)="onCloseShowcase()">close showcase</button> -->

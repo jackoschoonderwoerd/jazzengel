@@ -1,0 +1,46 @@
+
+
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+  height: 100%;
+  background-color: var(--background-color-3);
+}
+
+mat-sidenav {
+  background-color: white;
+  width: 80vw;
+}
+
+
+
+app-header {
+  background-color: var(--background-color-2);
+  color: var(--color-2);
+  position: fixed;
+  width: 100vw;
+  z-index: 100;
+}
+
+main{
+  padding: 56px 0px var(--app-footer-height) 0px;
+  background-color: var(--background-color-3);
+  color: var(--color-3);
+}
+
+
+app-footer {
+  position:fixed;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: var(--app-footer-height);
+
+  
+}
+
+
+@media (min-width: 600px){
+  /* Device = Most of the Smartphones Mobiles (Portrait) Screen = 320px to 479px */
+  main {
+    padding-top: 64px;
+  }
+}
