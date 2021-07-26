@@ -76,6 +76,12 @@ export class ProgramComponent implements OnInit {
 
 
   bookingSelected(booking: Booking) {
+    console.log(booking.artist.imageUrl);
+    // const originalUrl = 'https://firebasestorage.googleapis.com/v0/b/jazzengel-ff7bc.appspot.com/o/Barend-Middelhoff.jpg?alt=media&token=0fd6bd65-2779-4a39-baf0-befcc5c46fb2';
+    // const originalUrlArray = originalUrl.split('/o/')
+
+    // const resampldUrl = 'https://firebasestorage.googleapis.com/v0/b/jazzengel-ff7bc.appspot.com/o/artist-image-640%2FBarend-Middelhoff_640x640.jpeg?alt=media&token=ee082df2-67ea-492e-bcd3-3ee7ab4cd12d';
+    
     this.store.dispatch(new PROGRAM.SetDate(booking.date));
     // this.showcaseOpen = true;
     this.store.dispatch(new PROGRAM.IsShowcaseOpen(true));

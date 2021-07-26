@@ -78,6 +78,7 @@ export class ArtistsService {
     artist.imageUrl = imageUrl;
     return from(this.db.collection('artists').add(artist))
   }
+  
   updateArtist(artist: Artist, imageUrl: string): Observable<any> {
     console.log(artist)
     artist.imageUrl = imageUrl;

@@ -5,7 +5,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
-import { catchError, concatMap, last, map, tap } from 'rxjs/operators';
+import { catchError, concatMap, delay, last, map, tap } from 'rxjs/operators';
 import { Artist } from '../artist.model';
 import { ArtistsService } from '../artists.service';
 
@@ -102,18 +102,20 @@ export class CreateArtistComponent implements OnInit {
 
   uploadThumbnail(event) {
     const file: File = event.target.files[0]
-    console.log(file.name);
-    const filePath = `artists/${file.name}`
+    const filePath = file.name
      const task = this.storage.upload( filePath, file, {
       cacheControl: 'max-age=2592000,public'
     });
-    this.percentageChanges$ =  task.percentageChanges()
+    this.percentageChanges$ = task.percentageChanges()
     task.snapshotChanges()
     .pipe(
       last(),
       concatMap(() => this.storage.ref(filePath).getDownloadURL()),
       tap(imageUrl => {
-        this.imageUrl = imageUrl
+        // if(imageUrl) {
+        //   this.getResizedUrl(filePath);
+        // }
+        this.keepTrying(10, filePath)
       }),
       catchError(err => {
         console.log(err);
@@ -121,6 +123,45 @@ export class CreateArtistComponent implements OnInit {
         return throwError(err)
       })
     )
-    .subscribe()
+    .subscribe();
+  }
+
+
+
+  
+  // getResizedUrl(filePath) {
+    //   setTimeout(() => {
+      //     const newFilePath = filePath.split('.')[0] + '_640x640.jpeg'
+      //     const storageRef = this.storage.storage.ref().child(newFilePath);
+      //     return storageRef.getDownloadURL().then((newUrl: string) => {
+        //       console.log(newUrl);
+        //       this.imageUrl = newUrl;
+        //     })
+        //   }, 5000)
+        // }
+
+  // https://www.py4u.net/discuss/315114
+
+  keepTrying(triesRemaining, filePath) {
+    if(triesRemaining < 0) {
+      return Promise.reject('out of tries')
+    }
+    const newFilePath = filePath.split('.')[0] + '_640x640.jpeg'
+    const storageRef = this.storage.storage.ref().child(newFilePath);
+    return storageRef.getDownloadURL().then((newUrl: string) => {
+      this.imageUrl = newUrl
+    }).catch((error) => {
+      switch(error.code) {
+        case 'storage/object-not-found':
+          console.log(error.code);
+          return setTimeout(() => {
+            return this.keepTrying(triesRemaining - 1, filePath)
+          }, 2000);
+        default: {
+          console.log(error);
+          return Promise.reject(error)
+        }
+      }
+    })
   }
 }
