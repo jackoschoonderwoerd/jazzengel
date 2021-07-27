@@ -29,6 +29,7 @@ export class ProgramComponent implements OnInit {
   dateOpen: number[] = [];
   dateOpen$: Observable<number[]>
   showcaseOpen: boolean = true;
+  showcaseOpen$: Observable<boolean>;
   // bookedYears: Year[];
 
   constructor(
@@ -39,6 +40,7 @@ export class ProgramComponent implements OnInit {
 
   ngOnInit(): void {
     
+    
     this.dateOpen$ = this.store.select(fromApp.getDate);
     this.isAuthenticated$ = this.store.select(fromApp.getIsAuth);
     // this.years$ = this.programService.fetchBookings()
@@ -48,7 +50,9 @@ export class ProgramComponent implements OnInit {
     })
     this.store.subscribe(storeContent => {
       this.showcaseOpen = storeContent.program.isShowcaseOpen
+      console.log('this.showcaseOpen', this.showcaseOpen);
     })
+    this.showcaseOpen$ = this.store.select(fromApp.isShowcaseOpen)
     
     // this.programService.yearsChanged.subscribe((years: Year[]) => {
     //   this.years = years;
@@ -60,6 +64,8 @@ export class ProgramComponent implements OnInit {
     this.programService.fetchBookings();
     this.years$ = this.store.select(fromApp.getYears);
   }
+
+
 
   onGigDate(monthName: number, gigName: number, yearName: number) {
     // const selectedDate = new Date(yearName, monthName - 1, gigName);

@@ -28,13 +28,14 @@ export class ArtistsComponent implements OnInit {
   onRoute(route) {
     this.router.navigate(['artists/' + route]);
   }
-  onEditArtist(id) {
-    console.log(id)
-    this.router.navigate(['artists/create-artist', {id: id}]);
+  onEditArtist(artistId) {
+    console.log(artistId)
+    this.router.navigate(['artists/create-artist', {artistId: artistId}]);
   }
-  onDeleteArtist(id) {
+  onDeleteArtist(artist) {
+    console.log(artist);
     if(confirm('this will delete the artist-entry')) {
-      this.artistsService.deleteArtist(id);
+      this.artistsService.deleteArtist(artist);
     }
     return;
   }

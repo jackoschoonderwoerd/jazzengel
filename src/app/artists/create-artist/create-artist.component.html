@@ -4,6 +4,7 @@
     {{editMode ? 'UPDATE' : 'CREATE'}}
   </h1>
   <form
+    
     fxLayout="column"
     class="create-artist-form"
     [formGroup]="form"
@@ -38,7 +39,7 @@
     </mat-form-field>
 
 
-    <img *ngIf="imageUrl" [src]="imageUrl" class="image" style="width: 100%" alt="">
+    <img  [src]="form.get('imageUrl').value" class="image" style="width: 100%" alt="">
     <div class="file-selector-container">
       <input
         class="file-input"

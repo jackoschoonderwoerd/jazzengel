@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { convertSnaps } from '../shared/db-utils';
@@ -13,7 +14,8 @@ export class ArtistsService {
   artist: Artist;
 
   constructor(
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private storage: AngularFireStorage
   ) { }
 
   fetchArtists(): Observable<Artist[]> {
@@ -25,11 +27,12 @@ export class ArtistsService {
         map(docArray => {
           return docArray.map((doc: any) => {
             return {
-              id: doc.payload.doc.id,
+              artistId: doc.payload.doc.id,
               name: doc.payload.doc.data().name,
               instrument: doc.payload.doc.data().instrument,
               imageUrl: doc.payload.doc.data().imageUrl,
-              biography: doc.payload.doc.data().biography
+              biography: doc.payload.doc.data().biography,
+              filePath: doc.payload.doc.data().filePath
             }
           })
         })
@@ -64,7 +67,8 @@ export class ArtistsService {
             name : snaps.payload.get('name'),
             instrument: snaps.payload.get('instrument'),
             imageUrl: snaps.payload.get('imageUrl'),
-            biography: snaps.payload.get('biography')
+            biography: snaps.payload.get('biography'),
+            filePath: snaps.payload.get('filePath')
           }
           return artist
         }
@@ -73,20 +77,21 @@ export class ArtistsService {
       );
   }
 
-  createArtist(artist: Artist, imageUrl: string, id?: string): Observable<any> {
+  createArtist(artist: Artist): Observable<any> {
     console.log(artist)
-    artist.imageUrl = imageUrl;
+    // artist.imageUrl = imageUrl;
     return from(this.db.collection('artists').add(artist))
   }
   
-  updateArtist(artist: Artist, imageUrl: string): Observable<any> {
+  updateArtist(artist: Artist): Observable<any> {
     console.log(artist)
-    artist.imageUrl = imageUrl;
     return from(this.db.doc(`artists/${artist.artistId}`).update(artist))
     // console.log(artist);
   }
 
-  deleteArtist(id) {
-    return this.db.doc(`artists/${id}`).delete()
+  deleteArtist(artist: Artist) {
+    console.log(artist);
+    this.storage.storage.ref().child(artist.filePath).delete();
+    return this.db.doc(`artists/${artist.artistId}`).delete();
   }
 }

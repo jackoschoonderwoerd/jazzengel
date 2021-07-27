@@ -3,5 +3,6 @@ export interface Artist {
   name: string;
   instrument: string;
   imageUrl?: string;
-  biography?: string
+  biography?: string;
+  filePath?: string
 }

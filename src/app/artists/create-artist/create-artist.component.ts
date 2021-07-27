@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Console } from 'console';
 import { Observable, throwError } from 'rxjs';
 import { catchError, concatMap, delay, last, map, tap } from 'rxjs/operators';
 import { Artist } from '../artist.model';
@@ -20,7 +21,7 @@ export class CreateArtistComponent implements OnInit {
   form: FormGroup;
   artist$: Observable<any>
   percentageChanges$: Observable<number>;
-  imageUrl: string = null;
+  // imageUrl: string = null;
   artist: Artist;
   editMode: boolean = false
   
@@ -40,9 +41,9 @@ export class CreateArtistComponent implements OnInit {
     this.initForm()
 
     this.route.paramMap.subscribe((paramMap: any) => {
-      this.artist$ = this.artistsService.fetchArtistById(paramMap.params.id);
+      this.artist$ = this.artistsService.fetchArtistById(paramMap.params.artistId);
       this.artist$.subscribe((artist: Artist) => {
-        this.imageUrl = artist.imageUrl;
+        // this.imageUrl = artist.imageUrl;
         console.log(artist);
         if(artist.artistId !== undefined) {
           this.editMode = true;
@@ -50,7 +51,9 @@ export class CreateArtistComponent implements OnInit {
             artistId: artist.artistId,
             name: artist.name,
             instrument: artist.instrument,
-            biography: artist.biography
+            biography: artist.biography,
+            filePath: artist.filePath,
+            imageUrl: artist.imageUrl
           })
         }
       })
@@ -62,13 +65,17 @@ export class CreateArtistComponent implements OnInit {
       artistId: new FormControl(null),
       name: new FormControl('Victor de Boo', [Validators.required]),
       instrument: new FormControl('drums', [Validators.required]),
-      biography: new FormControl('hi there', [])
+      biography: new FormControl('hi there', []),
+      filePath: new FormControl(null),
+      imageUrl: new FormControl(null)
     })
   }
 
   onCreateOrUpdateArtist() {
+    // ? NEW ENTRY
     if(!this.editMode) {
-      this.artistsService.createArtist(this.form.value, this.imageUrl, this.id)
+      console.log(this.form.value);
+      this.artistsService.createArtist(this.form.value)
         .pipe(
           tap(artist => {
             console.log('created new artist', artist)
@@ -82,8 +89,10 @@ export class CreateArtistComponent implements OnInit {
         )
         .subscribe()
     } else {
+      // ? EDIT ENTRY
       console.log(this.editMode)
-      this.artistsService.updateArtist(this.form.value, this.imageUrl)
+      console.log(this.form.value)
+      this.artistsService.updateArtist(this.form.value)
         .pipe(
           tap(artist => {
             console.log('artist updated', artist);
@@ -101,7 +110,15 @@ export class CreateArtistComponent implements OnInit {
 
 
   uploadThumbnail(event) {
-    const file: File = event.target.files[0]
+    if(this.editMode) {
+      console.log('this.editMode', this.editMode)
+      if(this.form.value.filePath) {
+        console.log(this.form.value.filePath);
+        this.storage.ref(this.form.value.filePath).delete().subscribe(data => console.log(data));
+      }
+    }
+    console.log(event.target.files[0].name);
+    const file: File = event.target.files[0];
     const filePath = file.name
      const task = this.storage.upload( filePath, file, {
       cacheControl: 'max-age=2592000,public'
@@ -112,6 +129,11 @@ export class CreateArtistComponent implements OnInit {
       last(),
       concatMap(() => this.storage.ref(filePath).getDownloadURL()),
       tap(imageUrl => {
+        // console.log(imageUrl)
+        // this.form.patchValue({
+        //   imageUrl: imageUrl
+        // })
+        // console.log(this.form.value)
         // if(imageUrl) {
         //   this.getResizedUrl(filePath);
         // }
@@ -147,9 +169,17 @@ export class CreateArtistComponent implements OnInit {
       return Promise.reject('out of tries')
     }
     const newFilePath = filePath.split('.')[0] + '_640x640.jpeg'
+   
+    // this.artist.filePath = filePath.split('.')[0] + '_640x640.jpeg'
     const storageRef = this.storage.storage.ref().child(newFilePath);
-    return storageRef.getDownloadURL().then((newUrl: string) => {
-      this.imageUrl = newUrl
+    return storageRef.getDownloadURL()
+      .then((newUrl: string) => {
+        console.log(newUrl);
+        this.form.patchValue({
+          filePath: newFilePath,
+          imageUrl: newUrl
+        })
+        console.log('NEWURL', newUrl);
     }).catch((error) => {
       switch(error.code) {
         case 'storage/object-not-found':

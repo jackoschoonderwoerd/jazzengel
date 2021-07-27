@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav role="navigation" [opened]="showcaseOpen">
+  <mat-sidenav #sidenav role="navigation" [opened]="showcaseOpen$ | async">
     <app-showcase></app-showcase>
   </mat-sidenav>
   <mat-sidenav-content>
