@@ -1,26 +1,27 @@
-<div class="wrapper" *ngIf="booking$ | async; let booking">
-  <button (click)="onCloseShowcase()">close showcase</button>
-  <div class="booking-date">
-    <span>{{booking.date[0] | numbertomonth}} </span>
-    <span>{{ booking.date[1] }}, </span>
-    <span>{{ booking.date[2] }}</span>
-  </div>
-  <div>{{booking.artist.name}}</div>
-  <div class="instrument">{{booking.artist.instrument}}</div>
-  <img [src]="booking.artist.imageUrl" alt="">
-  <div class="biography">
-    {{booking.artist.biography}}
-  </div>
-</div>
-<button (click)="onCloseShowcase()">close showcase</button>
 
-<!-- <div class="wrapper"  *ngIf="artist$ | async; let artist">
-  <button (click)="onCloseShowcase()">close showcase</button>
-  <div>{{artist.name}}</div>
-  <div class="instrument">{{artist.instrument}}</div>
-  <img [src]="artist.imageUrl" alt="">
-  <div class="biography">
-    {{artist.biography}}
+<fa-icon class="close-window" [icon]="faWindowClose" (click)="onCloseShowcase()"></fa-icon>
+
+<div class="showcase-wrapper" *ngIf="artist$ | async as artist" (scroll)="scroll($event)">
+  <div class="header" fxLayout fxLayoutAlign="space-between">
+    <div class="gig-info">
+      <div class="booking" *ngIf="booking$ | async as booking">
+        {{booking.date[0] | numbertomonth | titlecase}} {{booking.date[1]}}, {{booking.date[2]}}
+      </div>
+      <div class="artist-name-instrument" fxLayout fxLayoutGap="20px" >
+        <span class="name">
+          {{artist.name}}
+        </span>
+        <span class="instrument">
+          {{artist.instrument}}
+        </span>
+      </div>
+    </div>
+    <!-- <button (click)="onCloseShowcase()">close showcase</button> -->
   </div>
+  <img class="image" [src]="artist.imageUrl" alt="">
+  
+  
+  <div class="biography" [innerHTML]="artist.biography"></div>
+  
+  <!-- <button (click)="onCloseShowcase()">close showcase</button> -->
 </div>
-<button (click)="onCloseShowcase()">close showcase</button> -->

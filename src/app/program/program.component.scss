@@ -3,11 +3,49 @@ mat-sidenav-container {
     @media (min-width: 600px) {
         height: calc(100vh - 114px);
     }
+    mat-sidenav {
+
+    }
+    mat-sidenav-content {
+        main {
+            background-color: pink; 
+            .wrapper {
+                // border: 2px solid red;
+                .accordion-container {
+                    border: 2px solid green;
+                    width: 100%;
+                    max-width: 400px;
+                    .year-expansion-panel {
+                        .year-expansion-panel-header {
+                            
+                            background-color: lightblue;
+                            .year-panel-title {
+                                color: red;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
-/* Device = Most of the Smartphones Mobiles (Portrait) Screen = 320px to 479px */
-// @media (min-width: 600px){
-//   main {
-//     padding-top: 64px;
-//   }
-// }
+mat-expansion-panel-header {
+    padding: 0 var(--rem-m) !important;
+}
+
+mat-expansion-panel-content {
+    padding: 0 var(--rem-m) !important;
+}
+
+.mat-expansion-panel-body {
+    padding: 0 !important;
+}
+
+.bookings-list {
+    padding: 0 var(--rem-s) !important;
+}
+.bookings-list-item {
+    padding: var(--rem-ms) var(--rem-m) !important ;
+    border: 1px solid var(--jazz-black);
+}

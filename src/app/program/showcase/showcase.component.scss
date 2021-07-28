@@ -1,4 +1,38 @@
-.wrapper {
-  width: 100vw;
-  background-color: pink;
+.close-window {
+  font-size: 24px;
+  position: fixed;
+  top: 70px;
+  right: 10px;
+  opacity: 0.3;
 }
+.showcase-wrapper {
+  
+  width: 100vw;
+  background-color: var(--jazz-white);
+  .header {
+    padding: var(--rem-ms);
+    .gig-info {
+      .booking {
+
+      }
+      .name-instrument {
+        .name {
+
+        }
+        .instrument {
+
+        }
+      }
+    }
+    
+  }
+  .image {
+    width: 100%;
+  }
+  .biography {
+    padding: var(--rem-ms);
+  }
+}
+
+
+

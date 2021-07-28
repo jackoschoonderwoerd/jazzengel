@@ -9,6 +9,7 @@ import { BookArtistComponent } from './book-artist/book-artist.component';
 import { ProgramMaterialModule } from './program-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ShowcaseComponent } from './showcase/showcase.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -24,7 +25,8 @@ import { ShowcaseComponent } from './showcase/showcase.component';
     ProgramMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FontAwesomeModule
   ],
   declarations: [
     ProgramComponent,

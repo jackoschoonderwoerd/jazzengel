@@ -7,7 +7,7 @@ import {
   YEAR_CHANGED,
   SET_DATE,
   IS_SHOWCASE_OPEN,
-  SELECTED_ARTIST_ID,
+  SET_ARTIST_ID,
   SET_ARTIST,
   SET_BOOKING
 } from './program.actions';
@@ -22,7 +22,7 @@ export interface ProgramState {
   date: number[]
   years: Year[]
   isShowcaseOpen: boolean;
-  selectedArtistId: string;
+  artistId: string;
   artist: Artist;
   booking: Booking;
 }
@@ -38,7 +38,7 @@ const initialState: ProgramState = {
   years: [],
   date: [new Date().getMonth() + 1, new Date().getDate(), new Date().getFullYear()],
   isShowcaseOpen: false,
-  selectedArtistId: null,
+  artistId: null,
   artist: null,
   booking: null
 }
@@ -63,10 +63,11 @@ export function programReducer(state = initialState, action: ProgramActions) {
         isShowcaseOpen: action.isOpen
       }
     }
-    case SELECTED_ARTIST_ID: {
+    case SET_ARTIST_ID: {
+      console.log(action)
       return {
         ...state,
-        selectedArtistId: action.selectedArtistId
+        artistId: action.artistId
       }
     }
     case SET_ARTIST: {
@@ -95,6 +96,6 @@ export function programReducer(state = initialState, action: ProgramActions) {
 export const getYears = (state: ProgramState) => state.years;
 export const getDate = (state: ProgramState) => state.date;
 export const isShowcaseOpen = (state: ProgramState) => state.isShowcaseOpen;
-export const getSelectedArtistId = (state: ProgramState) => state.selectedArtistId;
+export const getArtistId = (state: ProgramState) => state.artistId;
 export const getArtist = (state: ProgramState) => state.artist
 export const getBooking = (state: ProgramState) => state.booking

@@ -5,7 +5,7 @@ import { Booking, Year } from './program.models';
 export const YEAR_CHANGED = '[Program] Year Changed'
 export const SET_DATE = '[Program], Set Date'
 export const IS_SHOWCASE_OPEN = '[Program], Is Showcase Open'
-export const SELECTED_ARTIST_ID = '[Program], Selected Artist'
+export const SET_ARTIST_ID = '[Program], Selected Artist'
 export const SET_ARTIST = '[Program], Set Artist'
 export const SET_BOOKING = '[Program] Set Booking' 
 
@@ -23,9 +23,9 @@ export class IsShowcaseOpen implements Action {
   readonly type = IS_SHOWCASE_OPEN
   constructor(public isOpen: boolean) {}
 }
-export class SelectedArtistId implements Action {
-  readonly type = SELECTED_ARTIST_ID
-  constructor(public selectedArtistId: string) {}
+export class SetArtistId implements Action {
+  readonly type = SET_ARTIST_ID
+  constructor(public artistId: string) {}
 }
 export class SetArtist implements Action {
   readonly type = SET_ARTIST
@@ -44,6 +44,6 @@ export type ProgramActions =
   YearChanged |
   SetDate |
   IsShowcaseOpen |
-  SelectedArtistId |
+  SetArtistId |
   SetArtist |
   SetBooking

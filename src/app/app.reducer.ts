@@ -23,7 +23,7 @@ export const getProgramState = createFeatureSelector<fromProgram.ProgramState>('
 export const getYears = createSelector(getProgramState, fromProgram.getYears);
 export const getDate = createSelector(getProgramState, fromProgram.getDate);
 export const isShowcaseOpen = createSelector(getProgramState, fromProgram.isShowcaseOpen);
-export const getSelectedArtistId = createSelector(getProgramState, fromProgram.getSelectedArtistId);
+export const getArtistId = createSelector(getProgramState, fromProgram.getArtistId);
 export const getArtist = createSelector(getProgramState, fromProgram.getArtist);
 export const getBooking = createSelector(getProgramState, fromProgram.getBooking);
 

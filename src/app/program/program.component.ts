@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -8,11 +8,14 @@ import * as fromProgram from './../program/program.reducer'
 import * as PROGRAM from './../program/program.actions';
 import { Booking, Year } from './program.models';
 import { ProgramService } from './program.service';
+import { ArtistsService } from '../artists/artists.service';
+import { Artist } from '../artists/artist.model';
 
 @Component({
   selector: 'app-program',
   templateUrl: './program.component.html',
-  styleUrls: ['./program.component.scss']
+  styleUrls: ['./program.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProgramComponent implements OnInit {
 
@@ -32,10 +35,16 @@ export class ProgramComponent implements OnInit {
   showcaseOpen$: Observable<boolean>;
   // bookedYears: Year[];
 
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(e) {
+    console.log(e)
+  }
+
   constructor(
     private router: Router,
     private store: Store<GlobalState>,
-    private programService: ProgramService
+    private programService: ProgramService,
+    private artistService: ArtistsService
   ) { }
 
   ngOnInit(): void {
@@ -80,18 +89,28 @@ export class ProgramComponent implements OnInit {
     this.programService.fetchBookings()
   }
 
+  openedChange(e) {
+    console.log(e)
+  }
 
   bookingSelected(booking: Booking) {
-    console.log(booking.artist.imageUrl);
+    console.log(booking.artist.artistId);
+    this.artistService.fetchArtistById(booking.artist.artistId)
+    .subscribe((artist: Artist) => {
+      console.log(artist);
+      this.store.dispatch(new PROGRAM.SetArtist(artist));
+    })
     // const originalUrl = 'https://firebasestorage.googleapis.com/v0/b/jazzengel-ff7bc.appspot.com/o/Barend-Middelhoff.jpg?alt=media&token=0fd6bd65-2779-4a39-baf0-befcc5c46fb2';
     // const originalUrlArray = originalUrl.split('/o/')
 
     // const resampldUrl = 'https://firebasestorage.googleapis.com/v0/b/jazzengel-ff7bc.appspot.com/o/artist-image-640%2FBarend-Middelhoff_640x640.jpeg?alt=media&token=ee082df2-67ea-492e-bcd3-3ee7ab4cd12d';
     
     this.store.dispatch(new PROGRAM.SetDate(booking.date));
+    // this.store.dispatch(new PROGRAM.)
     // this.showcaseOpen = true;
+    this.store.dispatch(new PROGRAM.SetArtistId(booking.artist.artistId));
     this.store.dispatch(new PROGRAM.IsShowcaseOpen(true));
-    this.store.dispatch(new PROGRAM.SetArtist(booking.artist));
+    // this.store.dispatch(new PROGRAM.SetArtist(booking.artist));
     this.store.dispatch(new PROGRAM.SetBooking(booking))
   }
 

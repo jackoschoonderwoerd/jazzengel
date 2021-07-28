@@ -8,6 +8,7 @@ import * as fromRoot from './../../app.reducer';
 
 
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private store: Store<fromRoot.GlobalState>,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,9 @@ export class HeaderComponent implements OnInit {
   }
   onLogOut() {
     this.authService.logOut()
+  }
+  onLogo() {
+    this.router.navigate(['/home']);
   }
 }
 
