@@ -1,12 +1,13 @@
 
-  <mat-toolbar fxLayout fxLayoutAlign="space-between">
-    <div 
+    <mat-toolbar fxLayout fxLayoutAlign="space-between">
+      <div 
       fxHide.gt-sm
       class="toolbar-left" 
       fxLayout 
       fxLayoutAlign="center center"
       >
       <!-- <mat-icon fxHide.gt-sm class="menu-icon" (click)="onOpenSidenav()">menu</mat-icon> -->
+      
       <fa-icon
         class="menu" 
         fxHide.gt-sm 
@@ -38,7 +39,7 @@
           <li *ngIf="(userEmail$ | async)">USER: {{ userEmail$ | async}}</li>
           <li *ngIf="(isAdmin$ | async)">ADMIN: {{ isAdmin$ | async}}</li>
           
-          <li><a routerLinkActive="active-link" routerLink="/program">PROGRAM</a></li>
+          <li><a routerLinkActive="active-link" (click)="onProgram()">PROGRAM</a></li>
           <li *ngIf="(isAuth$ | async)"><a routerLinkActive="active-link" routerLink="/artists">ARTISTS</a></li>
           <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="/login">LOGIN</a></li>
           <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="/signup">SIGN UP</a></li>

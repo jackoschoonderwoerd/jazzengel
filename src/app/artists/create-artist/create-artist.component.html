@@ -67,10 +67,10 @@
         <span>{{percentage / 100 | percent}}</span>
     </div>
 
-    <button class="edit-button" [disabled]="form.invalid" mat-raised-button color="primary">
+    <button class="edit-button" [disabled]="processingImage || form.invalid" mat-raised-button color="primary">
       {{editMode ? 'UPDATE ARTIST' : 'CREATE ARTIST'}}
     </button>
-    <button class="cancel-button" mat-raised-button color="primary">
+    <button [disabled]="form.invalid" class="cancel-button" mat-raised-button color="primary">
       <a routerLink="/artists">CANCEL</a>
     </button>
   </form>

@@ -10,6 +10,7 @@ import { ProgramMaterialModule } from './program-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NameTitlecase } from './name-titlecase';
 
 
 
@@ -33,6 +34,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BookArtistComponent,
     NumberToMonth,
     ShowcaseComponent,
+    NameTitlecase
     
   ],
 })

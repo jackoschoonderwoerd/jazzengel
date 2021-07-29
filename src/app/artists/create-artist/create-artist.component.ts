@@ -9,6 +9,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, concatMap, delay, last, map, tap } from 'rxjs/operators';
 import { Artist } from '../artist.model';
 import { ArtistsService } from '../artists.service';
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-create-artist',
@@ -23,8 +24,11 @@ export class CreateArtistComponent implements OnInit {
   percentageChanges$: Observable<number>;
   // imageUrl: string = null;
   artist: Artist;
-  editMode: boolean = false
+  editMode: boolean = false;
+  processingImage: boolean = false;
   
+  faTrash = faTrash
+
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +49,7 @@ export class CreateArtistComponent implements OnInit {
       this.artist$.subscribe((artist: Artist) => {
         // this.imageUrl = artist.imageUrl;
         console.log(artist);
-        if(artist.artistId !== undefined) {
+        if (artist.artistId !== undefined) {
           this.editMode = true;
           this.form.patchValue({
             artistId: artist.artistId,
@@ -59,21 +63,23 @@ export class CreateArtistComponent implements OnInit {
       })
     })
   }
-  
+
   initForm() {
     this.form = this.formBuilder.group({
       artistId: new FormControl(null),
-      name: new FormControl('Victor de Boo', [Validators.required]),
-      instrument: new FormControl('drums', [Validators.required]),
-      biography: new FormControl('hi there', []),
+      name: new FormControl('null', [Validators.required]),
+      instrument: new FormControl('null', [Validators.required]),
+      biography: new FormControl(null, []),
       filePath: new FormControl(null),
-      imageUrl: new FormControl(null)
+      imageUrl: new FormControl(null),
+      
     })
   }
 
   onCreateOrUpdateArtist() {
+    this.form.value.name = this.form.value.name.toLowerCase();
     // ? NEW ENTRY
-    if(!this.editMode) {
+    if (!this.editMode) {
       console.log(this.form.value);
       this.artistsService.createArtist(this.form.value)
         .pipe(
@@ -110,9 +116,10 @@ export class CreateArtistComponent implements OnInit {
 
 
   uploadThumbnail(event) {
-    if(this.editMode) {
+    this.processingImage = true
+    if (this.editMode) {
       console.log('this.editMode', this.editMode)
-      if(this.form.value.filePath) {
+      if (this.form.value.filePath) {
         console.log(this.form.value.filePath);
         this.storage.ref(this.form.value.filePath).delete().subscribe(data => console.log(data));
       }
@@ -120,78 +127,64 @@ export class CreateArtistComponent implements OnInit {
     console.log(event.target.files[0].name);
     const file: File = event.target.files[0];
     const filePath = file.name
-     const task = this.storage.upload( filePath, file, {
+    const task = this.storage.upload(filePath, file, {
       cacheControl: 'max-age=2592000,public'
     });
     this.percentageChanges$ = task.percentageChanges()
     task.snapshotChanges()
-    .pipe(
-      last(),
-      concatMap(() => this.storage.ref(filePath).getDownloadURL()),
-      tap(imageUrl => {
-        // console.log(imageUrl)
-        // this.form.patchValue({
-        //   imageUrl: imageUrl
-        // })
-        // console.log(this.form.value)
-        // if(imageUrl) {
-        //   this.getResizedUrl(filePath);
-        // }
-        this.keepTrying(10, filePath)
-      }),
-      catchError(err => {
-        console.log(err);
-        alert('could not create thumbnail url');
-        return throwError(err)
-      })
-    )
-    .subscribe();
+      .pipe(
+        last(),
+        concatMap(() => this.storage.ref(filePath).getDownloadURL()),
+        tap(imageUrl => {
+          // console.log(imageUrl)
+          // this.form.patchValue({
+          //   imageUrl: imageUrl
+          // })
+          // console.log(this.form.value)
+          // if(imageUrl) {
+          //   this.getResizedUrl(filePath);
+          // }
+          this.keepTrying(10, filePath)
+        }),
+        catchError(err => {
+          console.log(err);
+          alert('could not create thumbnail url');
+          return throwError(err)
+        })
+      )
+      .subscribe();
   }
 
 
-
-  
-  // getResizedUrl(filePath) {
-    //   setTimeout(() => {
-      //     const newFilePath = filePath.split('.')[0] + '_640x640.jpeg'
-      //     const storageRef = this.storage.storage.ref().child(newFilePath);
-      //     return storageRef.getDownloadURL().then((newUrl: string) => {
-        //       console.log(newUrl);
-        //       this.imageUrl = newUrl;
-        //     })
-        //   }, 5000)
-        // }
-
-  // https://www.py4u.net/discuss/315114
-
   keepTrying(triesRemaining, filePath) {
-    if(triesRemaining < 0) {
+   
+    if (triesRemaining < 0) {
       return Promise.reject('out of tries')
     }
     const newFilePath = filePath.split('.')[0] + '_640x640.jpeg'
-   
+
     // this.artist.filePath = filePath.split('.')[0] + '_640x640.jpeg'
     const storageRef = this.storage.storage.ref().child(newFilePath);
     return storageRef.getDownloadURL()
       .then((newUrl: string) => {
-        console.log(newUrl);
+        this.processingImage = false;
         this.form.patchValue({
           filePath: newFilePath,
           imageUrl: newUrl
         })
         console.log('NEWURL', newUrl);
-    }).catch((error) => {
-      switch(error.code) {
-        case 'storage/object-not-found':
-          console.log(error.code);
-          return setTimeout(() => {
-            return this.keepTrying(triesRemaining - 1, filePath)
-          }, 2000);
-        default: {
-          console.log(error);
-          return Promise.reject(error)
+      }).catch((error) => {
+        switch (error.code) {
+          case 'storage/object-not-found':
+            console.log(error.code);
+            return setTimeout(() => {
+              return this.keepTrying(triesRemaining - 1, filePath)
+            }, 2000);
+          default: {
+            console.log(error);
+            return Promise.reject(error)
+          }
         }
-      }
-    })
+      })
   }
 }

@@ -55,7 +55,7 @@
                           class="gig-panel-description">
                           <ul class="featured-artist-list">
                             <li class="featured-artist-list-item" *ngFor="let booking of gig.bookings" fxLayout fxLayoutAlign="space-between">
-                              <span>{{booking.isFeatured === true ? booking.artist.name : null}}</span>
+                              <span *ngIf="booking.isFeatured">{{booking.isFeatured === true ? (booking.artist.name | nametitlecase) : null}}</span>
                             </li>
                           </ul>
                         </mat-panel-description>
@@ -78,10 +78,10 @@
                               fxLayout
                               fxLayoutAlign="space-between center center">
                               <span class="name">
-                                {{booking.artist.name}}
+                                {{booking.artist.name | nametitlecase }}
                               </span>
                               <span class="instrument">
-                                {{booking.artist.instrument}}
+                                {{booking.artist.instrument | titlecase}}
                               </span>
                             </div>  
                           </div>

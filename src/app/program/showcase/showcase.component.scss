@@ -30,7 +30,22 @@
     width: 100%;
   }
   .biography {
-    padding: var(--rem-ms);
+    // font-size: var(--rem-m);
+    font-size: 0.9rem;
+    padding: var(--rem-m);
+    h4 {
+      font-size: var(--rem-m);
+      font-weight: 500;
+      padding: var(--rem-s) 0;
+    }
+    ul {
+      li::before {
+        content: '-';
+      }
+      li {
+        padding: var(--rem-xs) 0;
+      }
+    }
   }
 }
 

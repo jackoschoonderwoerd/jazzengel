@@ -5,6 +5,8 @@ import { take } from 'rxjs/operators';
 import { Artist } from './artist.model';
 import { ArtistsService } from './artists.service';
 
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+
 @Component({
   selector: 'app-artists',
   templateUrl: './artists.component.html',
@@ -13,6 +15,9 @@ import { ArtistsService } from './artists.service';
 export class ArtistsComponent implements OnInit {
 
   artists$: Observable<any>
+
+  
+  faTrash = faTrash
 
   constructor(
     private router: Router,

@@ -10,6 +10,10 @@ mat-toolbar {
     .menu {
       color: var(--jazz-white)
     }
+    .close-window-header {
+      color: red;
+      opacity: 1;
+    }
     .filler {
       display: flex;
       width: 100%

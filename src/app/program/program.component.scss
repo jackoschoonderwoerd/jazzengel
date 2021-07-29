@@ -4,23 +4,45 @@ mat-sidenav-container {
         height: calc(100vh - 114px);
     }
     mat-sidenav {
-
     }
     mat-sidenav-content {
         main {
-            background-color: pink; 
+            background-color: pink;
             .wrapper {
                 // border: 2px solid red;
                 .accordion-container {
                     border: 2px solid green;
                     width: 100%;
                     max-width: 400px;
-                    .year-expansion-panel {
-                        .year-expansion-panel-header {
-                            
-                            background-color: lightblue;
-                            .year-panel-title {
-                                color: red;
+                    .year-accordion{
+                        .year-expansion-panel {
+                            .year-expansion-panel-header {
+                                background-color: lightblue;
+                                .year-panel-title {
+                                    color: red;
+                                }
+                            }
+                            .month-accordion {
+                                .month-expansion-panel {
+                                    .month-expansion-panel-header {
+                                        .month-panel-title {
+                                            color: green;
+                                        }
+                                    }
+                                    .gig-accordion {
+                                        .gig-expansion-panel {
+                                            .gig-expansion-panel-header {
+                                                .gig-panel-title {
+                                                    width: 2rem;
+                                                    border: 1px solid pink;
+                                                }
+                                                .gig-panel-description {
+                                                    color: brown;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

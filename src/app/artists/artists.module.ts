@@ -7,6 +7,7 @@ import { ArtistsMaterialModule } from './artists-material.module';
 import { CreateArtistComponent } from './create-artist/create-artist.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     ArtistsMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    FontAwesomeModule
     
   ]
 })

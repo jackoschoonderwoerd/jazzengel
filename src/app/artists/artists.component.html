@@ -21,7 +21,9 @@
           color="warn" 
           class="edit-button" 
           type="button" 
-          (click)="onDeleteArtist(artist)">delete</button>
+          (click)="onDeleteArtist(artist)">
+          <fa-icon class="close-window" [icon]="faTrash"></fa-icon>
+        </button>
       </div>
     </li>
     <hr>
