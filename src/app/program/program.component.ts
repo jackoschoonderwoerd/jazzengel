@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -10,6 +10,8 @@ import { Booking, Year } from './program.models';
 import { ProgramService } from './program.service';
 import { ArtistsService } from '../artists/artists.service';
 import { Artist } from '../artists/artist.model';
+import { relative } from '@angular/compiler-cli/src/ngtsc/file_system';
+import { transform } from 'typescript';
 
 @Component({
   selector: 'app-program',
@@ -18,6 +20,8 @@ import { Artist } from '../artists/artist.model';
   encapsulation: ViewEncapsulation.None
 })
 export class ProgramComponent implements OnInit {
+
+  @ViewChild('target') target: HTMLElement
 
   isAdmin$: Observable<boolean>;
   condition: boolean = true;
@@ -34,10 +38,12 @@ export class ProgramComponent implements OnInit {
   showcaseOpen: boolean = true;
   showcaseOpen$: Observable<boolean>;
   // bookedYears: Year[];
+  test: boolean = true;
+  pageY: number;
 
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll(e) {
-    console.log(e)
+  @HostListener('window:scroll', ['$event']) // for window scroll events
+  onScroll(event) {
+    console.log(event)
   }
 
   constructor(
@@ -48,7 +54,7 @@ export class ProgramComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    window.addEventListener('scroll', this.scroll, true);
     
     this.dateOpen$ = this.store.select(fromApp.getDate);
     this.isAuthenticated$ = this.store.select(fromApp.getIsAuth);
@@ -72,6 +78,10 @@ export class ProgramComponent implements OnInit {
     this.isAdmin$ = this.store.select(fromApp.getIsAdmin);
     this.programService.fetchBookings();
     this.years$ = this.store.select(fromApp.getYears);
+  }
+
+  scroll(event: Event): void {
+    // console.log(event);
   }
 
 
@@ -120,5 +130,103 @@ export class ProgramComponent implements OnInit {
     } else {
       alert ('you have to be logged in')
     }
+  }
+  gigExpansionPanelSelected(e) {
+    console.log(e);
+  }
+  getColor() {
+    return 'yellow';
+  }
+  monthPanelSelected(e) {
+    // console.log(e);
+    // window.scroll(0, e.srcElement.offsetTop)
+    window.scroll(0, 500)
+  }
+
+
+  gigPanelSelected(e) {
+    // console.log(e);
+    // console.log(e.srcElement.offsetTop);
+    // var x = e.pageX 
+    // var y = e.pageY
+    // this.pageY = e.pageY
+    // console.log('pageX:', x)
+    // console.log('pageY:', y)
+    // console.log('e.srcElement.offsetTop: ', e.srcElement.offsetTop)
+    // console.log('e.srcElement.parentElement.offsetTop: ', e.srcElement.parentElement.offsetTop)
+    // window.scrollTo(0, 100);
+    // window.scroll(0, 100);
+    // window.scroll(0, e.srcElement.offsetTop)
+  }
+
+  monthPanelExpanded() {
+    return {
+      // top: -this.pageY + 100 + 'px'
+      // top: '-100px'
+      backgroundColor: 'var(--jazz-red)',
+      
+      padding: '0.5em'
+    }
+  }
+  monthPanelClosed() {
+    return {
+      backgroundColor: 'var(--jazz-white)',
+      // top: null
+    }
+  }
+  monthTitleExpanded () {
+    return {
+      color: 'var(--jazz-black)',
+      textTransform: 'uppercase',
+      fontSize: '1.5rem',
+      fontWeight: '500'
+    }
+  }
+  monthTitleClosed () {
+
+  }
+
+
+ 
+  gigTitleExpanded() {
+    return {
+      color: 'var(--jazz-black)',
+      fontSize: '1.5rem',
+      fontWeight: '500'
+    }
+  }
+  gigPanelExpanded() {
+    return {
+      backgroundColor: 'var(--jazz-red)',
+      color: 'var(--jazz-black)',
+      // top: -this.pageY + 100 + 'px'
+    }
+  }
+  gigPanelClosed() {
+    return {
+      backgroundColor: 'var(--jazz-white)',
+      // position: 'static'
+    }
+  }
+  gigTitleClosed () {
+
+  }
+  gigDescriptionExpanded () {
+    return {
+      color: 'var(--jazz-black)',
+      textTransform: 'uppercase',
+      
+    }
+  }
+  gigDescriptionClosed () {
+
+  }
+  gigListItemExpanded() {
+    return {
+      fontWeight: '900'
+    }
+  }
+  gigListItemTitleClosed() {
+
   }
 }

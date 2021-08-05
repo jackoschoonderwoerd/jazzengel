@@ -1,5 +1,10 @@
 
-<fa-icon class="close-window" [icon]="faWindowClose" (click)="onCloseShowcase()"></fa-icon>
+<fa-icon
+  
+  class="close-window fade-in" 
+  [icon]="faWindowClose" 
+  (click)="onCloseShowcase()">
+</fa-icon>
 
 <div class="showcase-wrapper" *ngIf="artist$ | async as artist" (scroll)="scroll($event)">
   <div class="header" fxLayout fxLayoutAlign="space-between">

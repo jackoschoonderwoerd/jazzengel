@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 
 import { Store } from '@ngrx/store'
@@ -13,6 +13,12 @@ import * as UI from './shared/ui.actions';
 })
 export class AppComponent implements OnInit {
   title = 'jazzengel';
+
+  // @HostListener('window:scroll', ['$event']) // for window scroll events
+  // onScroll(event) {
+  //   console.log(event)
+  // }
+  
   
   constructor(
     private authService: AuthService,
@@ -31,6 +37,10 @@ export class AppComponent implements OnInit {
         }
       });
     }
+    
+  }
+  onScroll(e) {
+    console.log(e)
   }
 }
 

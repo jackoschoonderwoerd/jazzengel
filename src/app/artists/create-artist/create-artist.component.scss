@@ -1,9 +1,10 @@
 .wrapper {
+  padding: var(--rem-m);
   h1 {
 
   }
   .create-artist-form {
-    padding-top: 2rem;
+    padding: 2rem, 1rem 0 1rem;
     max-width: 500px
   }
   mat-form-field {
@@ -21,8 +22,8 @@
       
     }
   }
-  img {
-    width: 150px;
+  .image {
+    width: 100%;
   }
   .file-selector-container {
     background-color: #ccc;

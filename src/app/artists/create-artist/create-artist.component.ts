@@ -20,7 +20,7 @@ export class CreateArtistComponent implements OnInit {
 
   id: string;
   form: FormGroup;
-  artist$: Observable<any>
+  artist$: Observable<Artist>
   percentageChanges$: Observable<number>;
   // imageUrl: string = null;
   artist: Artist;
@@ -45,23 +45,25 @@ export class CreateArtistComponent implements OnInit {
     this.initForm()
 
     this.route.paramMap.subscribe((paramMap: any) => {
-      this.artist$ = this.artistsService.fetchArtistById(paramMap.params.artistId);
-      this.artist$.subscribe((artist: Artist) => {
-        // this.imageUrl = artist.imageUrl;
-        console.log(artist);
-        if (artist.artistId !== undefined) {
-          this.editMode = true;
-          this.form.patchValue({
-            artistId: artist.artistId,
-            name: artist.name,
-            instrument: artist.instrument,
-            biography: artist.biography,
-            filePath: artist.filePath,
-            imageUrl: artist.imageUrl
-          })
-        }
-      })
-    })
+      if(JSON.stringify(paramMap.params) !== '{}') {
+        this.artist$ = this.artistsService.fetchArtistById(paramMap.params.artistId);
+        this.artist$.subscribe((artist: Artist) => {
+          console.log(artist);
+          // this.artist = artist;
+          if (artist.artistId !== undefined) {
+            this.editMode = true;
+            this.form.patchValue({
+              artistId: artist.artistId,
+              name: artist.name,
+              instrument: artist.instrument,
+              biography: artist.biography,
+              filePath: artist.filePath,
+              imageUrl: artist.imageUrl
+            });
+          }
+        });
+      } 
+    });
   }
 
   initForm() {

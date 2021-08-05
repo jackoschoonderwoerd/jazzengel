@@ -1,6 +1,5 @@
 
 
-
 mat-sidenav-container, mat-sidenav-content, mat-sidenav {
   height: 100%;
   background-color: var(--background-color-3);
@@ -25,6 +24,7 @@ main{
   padding: 56px 0px var(--app-footer-height) 0px;
   background-color: var(--background-color-3);
   color: var(--color-3);
+  
 }
 
 
@@ -34,8 +34,6 @@ app-footer {
   bottom: 0px;
   width: 100%;
   height: var(--app-footer-height);
-
-  
 }
 
 

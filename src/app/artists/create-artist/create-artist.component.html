@@ -1,4 +1,5 @@
 
+
 <div class="wrapper" fxLayout="column" fxLayoutAlign="center center">
   <h1>
     {{editMode ? 'UPDATE' : 'CREATE'}}
@@ -10,7 +11,7 @@
     [formGroup]="form"
     (ngSubmit)="onCreateOrUpdateArtist()">
 
-    <mat-form-field>
+    <mat-form-field *ngIf="artist$ | async">
       <input
         class="artist-id"
         type="text"
@@ -39,7 +40,7 @@
     </mat-form-field>
 
 
-    <img  [src]="form.get('imageUrl').value" class="image" style="width: 100%" alt="">
+    <img  [src]="form.get('imageUrl').value" class="image" alt="">
     <div class="file-selector-container">
       <input
         class="file-input"

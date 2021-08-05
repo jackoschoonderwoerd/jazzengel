@@ -24,6 +24,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { MaterialModule } from './material.module';
 import { AppMaterialModule } from './app-material.module';
+import { DateSuffix } from './shared/date-suffix.pipe';
 
 
 
@@ -37,6 +38,7 @@ import { AppMaterialModule } from './app-material.module';
     HeaderComponent,
     SidenavComponent,
     FooterComponent,
+    
     
   ],
   imports: [

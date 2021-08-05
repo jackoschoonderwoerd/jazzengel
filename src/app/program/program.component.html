@@ -23,20 +23,29 @@
               </mat-expansion-panel-header>
               <mat-accordion class="month-accordion">
                 <mat-expansion-panel
+                  (click)="monthPanelSelected($event)"
+                  #monthPanel
+                  [ngStyle]="monthPanel.expanded ? monthPanelExpanded() : monthPanelClosed()"
                   class="month-expansion-panel"
                   hideToggle
                   *ngFor="let month of year.months" 
                   [expanded]="month.name === dateOpen[0]">
                   <mat-expansion-panel-header class="month-expansion-panel-header">
-                    <mat-panel-title class="month-panel-title">
+                    <mat-panel-title class="month-panel-title"
+                    [ngStyle]="monthPanel.expanded ? monthTitleExpanded() : monthTitleClosed()">
+                      
                       {{month.name | numbertomonth}}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <mat-accordion class="gig-accordion">
                     <mat-expansion-panel
+                      #gigPanel
+                      (click)="gigPanelSelected($event)"
+                      [ngStyle]="gigPanel.expanded ? gigPanelExpanded() : gigPanelClosed()"
+                      
                       class="gig-expansion-panel"
                       hideToggle
-                      *ngFor="let gig of month.gigs" 
+                      *ngFor="let gig of month.gigs; let indexOfElement = i" 
                       [expanded]="
                         gig.name === dateOpen[1] ||
                         dateOpen[1] + 1 === gig.name ||
@@ -47,11 +56,13 @@
                         dateOpen[1] + 6 === gig.name">
                       <mat-expansion-panel-header class="gig-expansion-panel-header">
                         <mat-panel-title
+                        [ngStyle]="gigPanel.expanded ? gigTitleExpanded() : gigTitleClosed()"
                           class="gig-panel-title"
                           (click)="onGigDate(month.name, gig.name, year.yearName)">
-                          {{gig.name}}
+                          {{gig.name }}
                         </mat-panel-title>
                         <mat-panel-description
+                          [ngStyle]="gigPanel.expanded ? gigDescriptionExpanded() : gigDescriptionClosed()"
                           class="gig-panel-description">
                           <ul class="featured-artist-list">
                             <li class="featured-artist-list-item" *ngFor="let booking of gig.bookings" fxLayout fxLayoutAlign="space-between">
@@ -62,6 +73,7 @@
                       </mat-expansion-panel-header>
                       <ul class="bookings-list">
                         <li
+                          [ngStyle]="gigPanel.expanded ? gigListItemExpanded() : gigListItemTitleClosed()"
                           class="bookings-list-item"
                           *ngFor="let booking of gig.bookings" 
                           fxLayout 
@@ -102,3 +114,4 @@
 
 
 
+<!--  [ngStyle]="panel.expanded ? {backgroundColor: 'yellow'} : {backgroundColor: 'white'}" -->

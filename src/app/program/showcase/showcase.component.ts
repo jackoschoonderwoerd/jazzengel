@@ -20,6 +20,7 @@ export class ShowcaseComponent implements OnInit {
   booking$: Observable<Booking>
 
   faWindowClose = faWindowClose
+  
 
 
 
@@ -34,6 +35,7 @@ export class ShowcaseComponent implements OnInit {
     ngOnInit(): void {
     this.booking$ = this.store.select(fromRoot.getBooking);
     this.artist$ = this.store.select(fromRoot.getArtist);
+   
 
   }
 
