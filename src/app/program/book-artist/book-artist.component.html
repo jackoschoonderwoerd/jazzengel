@@ -1,16 +1,15 @@
 <div class="wrapper" fxLayout fxLayoutAlign="center">
   <div class="form-container">
-    <h1>BOOK</h1>
-    <h4>
+    <div class="book">BOOK</div>
+    <div class="gig">
       <span class="month">{{monthName | numbertomonth}}-</span>
-      <span>{{dateName}}-</span>
-      <span>{{yearName}}</span>
-    </h4>
+      <span class="date">{{dateName}}-</span>
+      <span class="year">{{yearName}}</span>
+    </div>
     <form
       [formGroup]="bookArtistForm"
       fxLayout="column"
       fxLayoutAlign="center">
-
       <mat-form-field appearance="fill">
         <mat-label>SELECT ARTIST</mat-label>
         <mat-select
@@ -18,7 +17,7 @@
           #matSelect
           formControlName="artist">
           <mat-option *ngFor="let artist of artists$ | async" [value]="artist">
-            {{ artist.name }}
+            {{ artist.name | titlecase }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -44,21 +43,20 @@
 
       <button
         mat-raised-button
-        color="primary"
         type="submit"
-        (click)="onBookArtist('program')">
+        (click)="onBookArtist('program')"
+        [disabled]="bookArtistForm.invalid">
         book artist and return to program
       </button>
       <button
         mat-raised-button
-        color="primary"
         type="button"
-        (click)="onBookArtist('stay')">
+        (click)="onBookArtist('stay')"
+        [disabled]="bookArtistForm.invalid">
         book this artist and book another
       </button>
       <button
         mat-raised-button
-        color="primary"
         type="button"
         (click)="onReturnToProgram()">
         return to program
@@ -67,15 +65,21 @@
     <div class="">booked so far:</div>
     <ul>
       <li *ngFor="let selectedBooking of selectedBookings$ | async">
-        <div fxLayout fxLayoutAlign="space-between"
+        <div fxLayout fxLayoutAlign="space-between center center"
+          class="artist-name"
           [ngClass]="{isFeatured :selectedBooking.isFeatured}"
           *ngIf="selectedBooking.date[0] === dateNamesArray[0] &&
                 selectedBooking.date[1] === dateNamesArray[1] &&
                 selectedBooking.date[2] === dateNamesArray[2]">
           {{selectedBooking.artist.name}}
-          <div class="" >
-            {{selectedBooking.listPosition}}
-            <button (click)="onRemove(selectedBooking.bookingId)">remove</button>
+          <div class="list-position-trash-button">
+            <span class="list-position">
+
+              {{selectedBooking.listPosition}}
+            </span>
+            <button mat-raised-button (click)="onRemove(selectedBooking.bookingId)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
           </div>
         </div>
       </li>

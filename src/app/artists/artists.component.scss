@@ -1,16 +1,17 @@
 .wrapper {
   padding-top: var(--rem-m);
+  background-color: var(--jazz-white);
   .add-artist {
     margin-bottom: var(--rem-m);
   }
   width: 100vw;
   .artists-list {
     
-    border: 3px solid black;
+    // border: 3px solid black;
     .artists-list-item {
-      border: 3px solid blue;
+      border: 1px solid black;
       .image-container {
-        border: 3px solid red;
+        border-right: 1px solid black;
         width: 75px;
         .image {
           width: 100%;
@@ -19,20 +20,24 @@
       .name-instrument-button {
         display: flex;
         width: 100%;
-        border: 3px solid pink;
+        // border: 3px solid pink;
         .name-instrument {
-          border: 3px solid green;
+          // border: 3px solid green;
           padding: var(--rem-m);
           text-transform: capitalize;
+          display: flex;
+          width: 100%;
           .name {
-            
           }
           .instrument {
 
           }
         }
-        .edit-button {
-
+        .delete-button {
+          
+          fa-icon {
+            
+          }
         }
 
       }

@@ -8,6 +8,7 @@ import { ArtistsService } from 'src/app/artists/artists.service';
 import { UIService } from 'src/app/shared/ui.service';
 import { Booking, Gig } from '../program.models';
 import { ProgramService } from '../program.service';
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-book-artist',
@@ -16,6 +17,7 @@ import { ProgramService } from '../program.service';
 })
 export class BookArtistComponent implements OnInit {
 
+  faTrash = faTrash
   bookArtistForm: FormGroup;
   minDate: Date;
   maxDate: Date;
@@ -69,7 +71,7 @@ export class BookArtistComponent implements OnInit {
   initAddArtistForm() {
     this.bookArtistForm = this.formBuilder.group({
       artist: new FormControl(null, [Validators.required]),
-      listPosition: new FormControl(null),
+      listPosition: new FormControl(null, [Validators.required]),
       isFeatured: new FormControl(false),
     })
   }
@@ -88,7 +90,8 @@ export class BookArtistComponent implements OnInit {
       this.uiService.showSnackbar('ARTIST BOOKED', null, 9000);
       this.bookArtistForm.patchValue({
         isFeatured: false,
-        artist: null
+        artist: null,
+        listPosition: null
       });
       if (destination === 'program') {
         this.router.navigate(['program']);

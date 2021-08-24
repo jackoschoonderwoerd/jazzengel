@@ -187,7 +187,7 @@ export class ProgramComponent implements OnInit {
     return {
       // top: -this.pageY + 100 + 'px'
       // top: '-100px'
-      backgroundColor: 'var(--jazz-red)',
+      backgroundColor: 'var(--jazz-green)',
       padding: '0.5em',
       
     }
@@ -209,7 +209,7 @@ export class ProgramComponent implements OnInit {
 
   monthNameContainerOpen () {
     return {
-      backgroundColor: 'var(--jazz-green)',
+      backgroundColor: 'var(--jazz-red)',
       padding: '8px 3px 5px 6px',
       borderRadius: '4px',
       border: '1px solid black',
@@ -227,22 +227,21 @@ export class ProgramComponent implements OnInit {
 
 
  
-  gigTitleExpanded() { // date
+  gigTitleExpanded() { // date 28
     return {
       color: 'var(--jazz-black)',
       fontSize: '1.5rem',
       fontWeight: '500',
       border: '1px solid black',
-      padding: '4px',
+      padding: '8px 8px 5px 8px',
       borderRadius: '4px',
       backgroundColor: 'var(--jazz-green)'
     }
   }
-  gigPanelExpanded() {
+  gigPanelExpanded() { // list of non-featured artists
     return {
       backgroundColor: 'var(--jazz-red)',
       color: 'var(--jazz-black)',
-      // top: -this.pageY + 100 + 'px'
     }
   }
   gigPanelClosed() {
@@ -254,20 +253,20 @@ export class ProgramComponent implements OnInit {
   gigTitleClosed () {
 
   }
-  gigDescriptionExpanded () {
+  gigDescriptionExpanded () { // featured artist name list
     return {
-      color: 'var(--jazz-black)',
+      color: 'purple',
       textTransform: 'uppercase',
-      fontSize: '1.5rem'
+      fontSize: '1.5rem',
       
     }
   }
   gigDescriptionClosed () {
 
   }
-  gigListItemExpanded() {
+  gigListItemExpanded() { // non-featured artist name list
     return {
-      
+
       backgroundColor: 'var(--jazz-green)',
       border: '1px solid var(--jazz-black)',
       borderRadius: '4px',
@@ -277,13 +276,13 @@ export class ProgramComponent implements OnInit {
   gigListItemTitleClosed() {
 
   }
-  featuredArtistNameExpanded() {
+  featuredArtistNameExpanded() { // BEN VAN DEN DUNGEN
     return {
       color: 'var(--jazz-black)',
       // fontSize: '1.5rem',
       fontWeight: '500',
       border: '1px solid black',
-      padding: '4px 8px',
+      padding: '8px 8px 5px 8px',
       borderRadius: '4px',
       backgroundColor: 'var(--jazz-green)'
     }
