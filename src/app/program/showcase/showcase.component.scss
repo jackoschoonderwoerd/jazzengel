@@ -16,14 +16,15 @@
     padding: var(--rem-ms);
     .gig-info {
       .booking {
-
+        font-size: 1.3rem
       }
-      .name-instrument {
+      .artist-name-instrument {
         .name {
-
+          text-transform: uppercase;
+          font-size: 1.3rem;
         }
         .instrument {
-
+          font-size: 1.3rem;
         }
       }
     }
@@ -34,7 +35,7 @@
   }
   .biography {
     // font-size: var(--rem-m);
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     padding: var(--rem-m);
     h4 {
       font-size: var(--rem-m);

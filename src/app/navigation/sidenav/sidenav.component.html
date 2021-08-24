@@ -28,7 +28,7 @@
     *ngIf="!(isAuth$ | async)"
     class="nav-list-item"
     mat-list-item
-    routerLink="/login"
+    routerLink="auth/login"
     (click)="onClose()">
     LOGIN
   </a>
@@ -38,7 +38,7 @@
     *ngIf="!(isAuth$ | async)"
     class="nav-list-item"
     mat-list-item
-    routerLink="/signup"
+    routerLink="auth/signup"
     (click)="onClose()">
     SIGNUP
   </a>

@@ -72,7 +72,18 @@ export class ProgramComponent implements OnInit {
     // this.programService.yearsChanged.subscribe((years: Year[]) => {
     //   this.years = years;
     // })
-    this.years = this.programService.getYears('6/1/2021', '5/31/2022');
+    const today = new Date()
+    const monthNow = today.getMonth() + 1;
+    const dateNow = today.getDate();
+    const yearNow = today.getFullYear();
+    const todayString = `${monthNow}/${dateNow}/${yearNow}`
+    console.log(today)
+    // const sixMonthsFromNow = today.getMonth() + 6;
+    
+    const dateSixMonthsFromNow = this.calculateDateSixMonthsFromNow(monthNow, dateNow, yearNow);
+    console.log(dateSixMonthsFromNow)
+
+    this.years = this.programService.getYears(todayString, dateSixMonthsFromNow);
     // this.bookedYears$ = this.store.select(fromApp.getYears);
     this.programService.removeAllArtistsFromAllGigs()
     this.isAdmin$ = this.store.select(fromApp.getIsAdmin);
@@ -131,6 +142,19 @@ export class ProgramComponent implements OnInit {
       alert ('you have to be logged in')
     }
   }
+
+  calculateDateSixMonthsFromNow(month: number, date: number, year: number): string  {
+    const monthsAhead: number = 6
+    if(month + monthsAhead > 11) {
+      month = month + 6 - 12;
+      year = year + 1
+    }
+    console.log(month, date, year);
+    return `${month}/31/${year}`
+  }
+
+
+
   gigExpansionPanelSelected(e) {
     console.log(e);
   }
@@ -164,8 +188,8 @@ export class ProgramComponent implements OnInit {
       // top: -this.pageY + 100 + 'px'
       // top: '-100px'
       backgroundColor: 'var(--jazz-red)',
+      padding: '0.5em',
       
-      padding: '0.5em'
     }
   }
   monthPanelClosed() {
@@ -178,21 +202,40 @@ export class ProgramComponent implements OnInit {
     return {
       color: 'var(--jazz-black)',
       textTransform: 'uppercase',
-      fontSize: '1.5rem',
-      fontWeight: '500'
+      fontSize: '2rem',
+      fontWeight: '400'
     }
   }
+
+  monthNameContainerOpen () {
+    return {
+      backgroundColor: 'var(--jazz-green)',
+      padding: '8px 3px 5px 6px',
+      borderRadius: '4px',
+      border: '1px solid black',
+
+    }
+  }
+
+  monthNameContainerClosed() {
+
+  }
+
   monthTitleClosed () {
 
   }
 
 
  
-  gigTitleExpanded() {
+  gigTitleExpanded() { // date
     return {
       color: 'var(--jazz-black)',
       fontSize: '1.5rem',
-      fontWeight: '500'
+      fontWeight: '500',
+      border: '1px solid black',
+      padding: '4px',
+      borderRadius: '4px',
+      backgroundColor: 'var(--jazz-green)'
     }
   }
   gigPanelExpanded() {
@@ -215,6 +258,7 @@ export class ProgramComponent implements OnInit {
     return {
       color: 'var(--jazz-black)',
       textTransform: 'uppercase',
+      fontSize: '1.5rem'
       
     }
   }
@@ -223,10 +267,28 @@ export class ProgramComponent implements OnInit {
   }
   gigListItemExpanded() {
     return {
-      fontWeight: '900'
+      
+      backgroundColor: 'var(--jazz-green)',
+      border: '1px solid var(--jazz-black)',
+      borderRadius: '4px',
+      fontSize: '1.3rem'
     }
   }
   gigListItemTitleClosed() {
+
+  }
+  featuredArtistNameExpanded() {
+    return {
+      color: 'var(--jazz-black)',
+      // fontSize: '1.5rem',
+      fontWeight: '500',
+      border: '1px solid black',
+      padding: '4px 8px',
+      borderRadius: '4px',
+      backgroundColor: 'var(--jazz-green)'
+    }
+  }
+  featuredArtistNameClosed() {
 
   }
 }

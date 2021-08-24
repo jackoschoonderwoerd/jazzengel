@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+[expanded]="
+                        gig.name === dateOpen[1] ||
+                        dateOpen[1] + 1 === gig.name ||
+                        dateOpen[1] + 2 === gig.name ||
+                        dateOpen[1] + 3 === gig.name ||
+                        dateOpen[1] + 4 === gig.name ||
+                        dateOpen[1] + 5 === gig.name ||
+                        dateOpen[1] + 6 === gig.name"

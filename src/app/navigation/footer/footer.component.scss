@@ -1,6 +1,7 @@
 .footer-container {
   height: 100%;
-  background-color: var(--jazz-green);
+  background-color: var(--jazz-black);
+  color: var(--jazz-white);
 
   @media (min-width: 481px) and (max-width: 767px) {
     // background-color: var(--background-color-2);

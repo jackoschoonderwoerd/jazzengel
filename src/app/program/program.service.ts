@@ -49,7 +49,7 @@ export class ProgramService {
         // ? CLEAR !
         this.removeAllArtistsFromAllGigs();
         res.forEach(res => {
-          console.log(res);
+          // console.log(res);
           const booking: Booking = res.booking
           booking.bookingId = res.bookingId
           this.addBookingToGig(booking);
