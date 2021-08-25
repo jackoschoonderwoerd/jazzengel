@@ -67,7 +67,7 @@
                           <div
                             class="gig-name-container"
                             [ngStyle]="gigPanel.expanded ? gigTitleExpanded() : gigTitleClosed()">
-                            {{gig.name }}
+                            {{gig.name | datesuffix}}
                           </div>
                         </mat-panel-title>
                         <mat-panel-description

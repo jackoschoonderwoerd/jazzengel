@@ -9,6 +9,8 @@ import * as fromRoot from './../app.reducer';
 import * as PROGRAM from './../program/program.actions'
 import { BookArtistComponent } from './book-artist/book-artist.component';
 import { Artist } from '../artists/artist.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteComponent } from '../shared/confirm-delete/confirm-delete.component';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,8 @@ export class ProgramService {
   
 
   constructor(
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private dialog: MatDialog
     ) { }
 
 
@@ -90,17 +93,24 @@ export class ProgramService {
   }
 
   removeBookingFromDb(bookingId) {
-    return this.db
-      .collection('bookings')
-      .doc(bookingId)
-      .delete()
-      .then(res => {
-        this.fetchBookings()
-        return res;
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    const message = 'This will remove the artist from the gig';
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent, {data: {message: message}});
+    dialogRef.afterClosed().subscribe(data => {
+      if(data) {
+        return this.db
+          .collection('bookings')
+          .doc(bookingId)
+          .delete()
+          .then(res => {
+            this.fetchBookings()
+            return res;
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      }
+      return;
+    })
   }
 
   removeGigFromProgram(bookingId) {

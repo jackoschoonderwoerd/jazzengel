@@ -1,6 +1,8 @@
 .wrapper {
   padding-top: var(--rem-m);
   background-color: var(--jazz-white);
+  min-height: calc(100vh - 106px);
+  padding: 1rem;
   .add-artist {
     margin-bottom: var(--rem-m);
   }

@@ -17,6 +17,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatDialogModule } from "@angular/material/dialog";
 
 
 
@@ -28,7 +29,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatButtonModule,
     MatFormFieldModule,
     MatCheckboxModule,
-    
+    MatDialogModule,
     MatExpansionModule,
     MatIconModule,
     MatInputModule,
@@ -50,6 +51,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSidenavModule,
     MatSnackBarModule,
     MatToolbarModule,
+    MatDialogModule,
   ]
 })
 

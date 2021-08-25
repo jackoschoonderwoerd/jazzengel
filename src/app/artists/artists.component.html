@@ -1,7 +1,10 @@
 
-<div class="wrapper" fxLayout="column" fxLayoutAlign="center center">
+<div class="wrapper" fxLayout="column">
   <button class="add-artist" mat-raised-button>
-    <a (click)="onRoute('create-artist')">CREATE ARTIST</a>
+    <a (click)="onRoute('artists/create-artist')">CREATE ARTIST</a>
+  </button>
+  <button class="add-artist" mat-raised-button>
+    <a (click)="onRoute('program')">CANCEL</a>
   </button>
   <ul class="artists-list" *ngIf="(artists$ | async)?.length > 0">
     <li
@@ -22,8 +25,8 @@
           class="delete-button" 
           type="button" 
           (click)="onDeleteArtist(artist)">
-
-          <fa-icon class="close-window" [icon]="faTrash"></fa-icon>
+          <!-- delete -->
+          <fa-icon [icon]="faTrash"></fa-icon>
         </button>
       </div>
     </li>

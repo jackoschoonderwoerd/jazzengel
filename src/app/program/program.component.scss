@@ -19,6 +19,8 @@ mat-sidenav-container {
                             padding: 0.5rem;
                             .year-expansion-panel-header {
                                 background-color: var(--jazz-orange);
+                                border: 3px solid var(--jazz-green);
+                                // margin: 5px;
                                 .year-panel-title {
                                     font-size: 2rem;
                                     justify-content: center;
@@ -39,6 +41,8 @@ mat-sidenav-container {
                                             background-color: red;
                                             padding-bottom: 0.5em; 
                                             .gig-expansion-panel-header {
+                                                // border: 1px solid black;
+                                                
                                                 
                                                 .gig-panel-title {
                                                     width: 2rem;
@@ -74,7 +78,7 @@ mat-sidenav-content {
 }
 
 mat-expansion-panel-header {
-    padding: 0 var(--rem-m) !important;
+    padding: 0 11px !important;
 }
 
 mat-expansion-panel-content {

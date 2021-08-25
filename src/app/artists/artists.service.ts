@@ -91,7 +91,10 @@ export class ArtistsService {
 
   deleteArtist(artist: Artist) {
     console.log(artist);
-    this.storage.storage.ref().child(artist.filePath).delete();
+    if(artist.filePath) {
+      this.storage.storage.ref().child(artist.filePath).delete()
+      .then(data => console.log(data));
+    }
     return this.db.doc(`artists/${artist.artistId}`).delete();
   }
 }

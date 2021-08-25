@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialogModule } from "@angular/material/dialog";
 
 
 
@@ -19,7 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   imports: [
     MatInputModule,
     MatFormFieldModule,
-
+    MatDialogModule,
     MatButtonModule,
 
 
@@ -33,7 +34,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   exports: [
     MatInputModule,
     MatFormFieldModule,
-
+    MatDialogModule,
     MatButtonModule,
 
 

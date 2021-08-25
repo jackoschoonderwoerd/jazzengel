@@ -25,6 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { MaterialModule } from './material.module';
 import { AppMaterialModule } from './app-material.module';
 import { DateSuffix } from './shared/date-suffix.pipe';
+import { ConfirmDeleteComponent } from './shared/confirm-delete/confirm-delete.component';
 
 
 
@@ -38,6 +39,7 @@ import { DateSuffix } from './shared/date-suffix.pipe';
     HeaderComponent,
     SidenavComponent,
     FooterComponent,
+    ConfirmDeleteComponent,
     
     
   ],

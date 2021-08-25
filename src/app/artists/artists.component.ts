@@ -6,6 +6,8 @@ import { Artist } from './artist.model';
 import { ArtistsService } from './artists.service';
 
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDeleteComponent } from '../shared/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-artists',
@@ -21,7 +23,9 @@ export class ArtistsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private artistsService: ArtistsService
+    private artistsService: ArtistsService,
+    private dialog: MatDialog,
+    
   ) { }
 
   ngOnInit(): void {
@@ -31,17 +35,22 @@ export class ArtistsComponent implements OnInit {
     
   }
   onRoute(route) {
-    this.router.navigate(['artists/' + route]);
+    this.router.navigate([route]);
   }
   onEditArtist(artistId) {
     console.log(artistId)
     this.router.navigate(['artists/create-artist', {artistId: artistId}]);
   }
+
   onDeleteArtist(artist) {
-    console.log(artist);
-    if(confirm('this will delete the artist-entry')) {
-      this.artistsService.deleteArtist(artist);
-    }
-    return;
+    const message = 'this will permanently remove the selected artist';
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent, {data: {message: message}})
+    dialogRef.afterClosed().subscribe(data => {
+      console.log(data);
+      if(data) {
+        this.artistsService.deleteArtist(artist);
+      } 
+      return;
+    })
   }
 }

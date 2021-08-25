@@ -18,6 +18,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 })
 export class CreateArtistComponent implements OnInit {
 
+  faTrash = faTrash
   id: string;
   form: FormGroup;
   artist$: Observable<Artist>
@@ -27,7 +28,6 @@ export class CreateArtistComponent implements OnInit {
   editMode: boolean = false;
   processingImage: boolean = false;
   
-  faTrash = faTrash
 
 
   constructor(
@@ -69,8 +69,8 @@ export class CreateArtistComponent implements OnInit {
   initForm() {
     this.form = this.formBuilder.group({
       artistId: new FormControl(null),
-      name: new FormControl('null', [Validators.required]),
-      instrument: new FormControl('null', [Validators.required]),
+      name: new FormControl(null, [Validators.required]),
+      instrument: new FormControl(null, [Validators.required]),
       biography: new FormControl(null, []),
       filePath: new FormControl(null),
       imageUrl: new FormControl(null),
