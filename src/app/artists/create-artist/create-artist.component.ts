@@ -169,11 +169,11 @@ export class CreateArtistComponent implements OnInit {
     const storageRef = this.storage.storage.ref().child(newFilePath);
     return storageRef.getDownloadURL()
       .then((newUrl: string) => {
-        this.processingImage = false;
         this.form.patchValue({
           filePath: newFilePath,
           imageUrl: newUrl
         })
+        this.processingImage = false;
         console.log('NEWURL', newUrl);
       }).catch((error) => {
         switch (error.code) {

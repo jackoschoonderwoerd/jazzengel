@@ -169,7 +169,7 @@ export class ProgramComponent implements OnInit {
 
 
   gigPanelSelected(e) {
-    // console.log(e);
+    console.log(e);
     // console.log(e.srcElement.offsetTop);
     // var x = e.pageX 
     // var y = e.pageY

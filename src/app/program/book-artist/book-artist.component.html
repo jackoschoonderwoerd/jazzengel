@@ -6,16 +6,10 @@
       <span class="date">{{dateName}}-</span>
       <span class="year">{{yearName}}</span>
     </div>
-    <form
-      [formGroup]="bookArtistForm"
-      fxLayout="column"
-      fxLayoutAlign="center">
+    <form [formGroup]="bookArtistForm" fxLayout="column" fxLayoutAlign="center">
       <mat-form-field appearance="fill">
         <mat-label>SELECT ARTIST</mat-label>
-        <mat-select
-          name="artist"
-          #matSelect
-          formControlName="artist">
+        <mat-select name="artist" #matSelect formControlName="artist">
           <mat-option *ngFor="let artist of artists$ | async" [value]="artist">
             {{ artist.name | titlecase }}
           </mat-option>
@@ -24,60 +18,49 @@
 
       <mat-form-field appearance="fill">
         <mat-label>LIST POSITION</mat-label>
-        <mat-select
-
-
-          formControlName="listPosition">
-          <mat-option *ngFor="let listPosition of listPositions" [value]="listPosition">
+        <mat-select formControlName="listPosition">
+          <mat-option *ngFor="let listPosition of listPositions" [value]="listPosition" [disabled]="listPosition === 5">
             {{ listPosition }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
 
-      <mat-checkbox
-        name="isFeatured"
-        formControlName="isFeatured">
+      <mat-checkbox name="isFeatured" formControlName="isFeatured">
         FEATURED
       </mat-checkbox>
 
-      <button
-        mat-raised-button
-        type="submit"
-        (click)="onBookArtist('program')"
-        [disabled]="bookArtistForm.invalid">
+      <button mat-raised-button type="submit" (click)="onBookArtist('program')" [disabled]="bookArtistForm.invalid">
         book artist and return to program
       </button>
-      <button
-        mat-raised-button
-        type="button"
-        (click)="onBookArtist('stay')"
-        [disabled]="bookArtistForm.invalid">
+      <button mat-raised-button type="button" (click)="onBookArtist('stay')" [disabled]="bookArtistForm.invalid">
         book this artist and book another
       </button>
-      <button
-        mat-raised-button
-        type="button"
-        (click)="onReturnToProgram()">
+      <button mat-raised-button type="button" (click)="onReturnToProgram()">
         return to program
       </button>
     </form>
-    <div class="">booked so far:</div>
-    <ul>
-      <li *ngFor="let selectedBooking of selectedBookings$ | async">
-        <div fxLayout fxLayoutAlign="space-between center center"
-          class="artist-name"
-          [ngClass]="{isFeatured :selectedBooking.isFeatured}"
+    <div class="">booked so far: (* is featured)</div>
+    <ul class="artist-list">
+      <li
+        class="artist-list-item"
+        *ngFor="let selectedBooking of selectedBookings$ | async">
+        <div
+          class="name-asterisk-list-position-delete" 
+          fxLayout 
+          fxLayoutAlign="space-between center"
           *ngIf="selectedBooking.date[0] === dateNamesArray[0] &&
                 selectedBooking.date[1] === dateNamesArray[1] &&
                 selectedBooking.date[2] === dateNamesArray[2]">
-          {{selectedBooking.artist.name}}
-          <div class="list-position-trash-button">
-            <span class="list-position">
-
-              {{selectedBooking.listPosition}}
-            </span>
-            <button mat-raised-button (click)="onRemove(selectedBooking.bookingId)">
+          <div class="name-asterisk" fxLayout>
+            <div class="name">{{selectedBooking.artist.name | titlecase}}</div>
+            <div *ngIf="selectedBooking.isFeatured" class="asterisk">*</div>
+          </div>
+          <div class="list-position-delete" fxLayout>
+            <div class="list-position" fxLayout fxLayoutAlign="center center"> 
+              {{selectedBooking.listPosition | number}}
+            </div>
+            <button class="delete" mat-raised-button (click)="onRemove(selectedBooking.bookingId)">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </div>

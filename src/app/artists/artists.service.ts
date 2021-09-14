@@ -26,6 +26,7 @@ export class ArtistsService {
       .pipe(
         map(docArray => {
           return docArray.map((doc: any) => {
+            console.log(doc.payload.doc.data().name)
             return {
               artistId: doc.payload.doc.id,
               name: doc.payload.doc.data().name,

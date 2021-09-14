@@ -1,8 +1,10 @@
 mat-toolbar {
+  .toolbar-content {}
   background-color: var(--jazz-black);
   color: var(--jazz-white);
-  @media (min-width: 481px) and (max-width: 767px) {
-    background-color: var(--color-1);
+  @media (max-width: 767px) {
+    // background-color: var(--color-1);
+    // background-color: blue;
     color: var(--background-color-1);
   }
   .toolbar-left {
