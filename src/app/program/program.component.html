@@ -59,7 +59,9 @@
                         dateOpen[1] + 5 === gig.name && month.name === dateOpen[0] ||
                         dateOpen[1] + 6 === gig.name && month.name === dateOpen[0]"
                         >
-                      <mat-expansion-panel-header class="gig-expansion-panel-header">
+                      <mat-expansion-panel-header
+                        class="gig-expansion-panel-header"
+                        fxLayout fxLayoutAlign="center center">
                         <mat-panel-title
                           
                           class="gig-panel-title"
@@ -72,7 +74,8 @@
                         </mat-panel-title>
                         <mat-panel-description
                           [ngStyle]="gigPanel.expanded ? gigDescriptionExpanded() : gigDescriptionClosed()"
-                          class="gig-panel-description">
+                          class="gig-panel-description"
+                          fxLayout fxLayoutAlign="center center">
                           <ul class="featured-artist-list">
                             <li class="featured-artist-list-item" *ngFor="let booking of gig.bookings" fxLayout fxLayoutAlign="space-between">
                               <span

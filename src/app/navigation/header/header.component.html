@@ -41,8 +41,8 @@
           
           <li><a routerLinkActive="active-link" (click)="onProgram()">PROGRAM</a></li>
           <li *ngIf="(isAuth$ | async)"><a routerLinkActive="active-link" routerLink="/artists">ARTISTS</a></li>
-          <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="/login">LOGIN</a></li>
-          <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="/signup">SIGN UP</a></li>
+          <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="auth/login">LOGIN</a></li>
+          <!-- <li *ngIf="!(isAuth$ | async)" ><a routerLinkActive="active-link" routerLink="/signup">SIGN UP</a></li> -->
           <li *ngIf="(isAuth$ | async)" (click)="onLogOut()">LOG OUT</li>
         </ul>
       </div>

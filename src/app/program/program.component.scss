@@ -1,4 +1,5 @@
 mat-sidenav-container {
+
     height: calc(100vh - 106px);
     @media (min-width: 600px) {
         height: calc(100vh - 114px);
@@ -29,8 +30,14 @@ mat-sidenav-container {
                             }
                             .month-accordion {
                                 .month-expansion-panel {
-                                    .month-expansion-panel-header {
-                                        .month-panel-title {
+                                    // background-color: var(--jazz-orange);
+                                    .month-expansion-panel-header { // SEPTEMBER
+                                        background-color: var(--jazz-red);
+                                        border: 2px solid var(--jazz-black);
+                                        margin: 3px;
+                                        .month-panel-title { // 31st
+                                            
+                                            
                                             color: var(--jazz-black);
                                             justify-content: center;
                                             font-size: 1.5rem;
@@ -41,17 +48,31 @@ mat-sidenav-container {
                                             background-color: red;
                                             padding-bottom: 0.5em; 
                                             .gig-expansion-panel-header {
-                                                // border: 1px solid black;
+                                                // border: 3px solid yellow;
+                                                
+                                                // background-color: var(--jazz-orange);
                                                 
                                                 
                                                 .gig-panel-title {
-                                                    width: 2rem;
+                                                    padding: .3rem 0;
+                                                    // width: 2rem;
                                                     font-size: 1.3rem;
-                                                    .gig-name-container {}                                     
+                                                    // border: 3px solid blue;
+                                                    width: 1rem;
+                                                    .gig-name-container {
+                                                        border: 1px solid var(--jazz-black);
+                                                        border-radius: 3px;;
+                                                        padding: .3rem;
+                                                        
+                                                        // border: 3px solid purple;
+                                                    }                                     
                                                 }
                                                 .gig-panel-description {
                                                     color: var(--jazz-black);
                                                     font-size: 1.3rem;
+                                                    // width: 3rem;
+                                                    // border: 3px solid green;
+                                                    
                                                 }
                                             }
                                         }
@@ -65,16 +86,13 @@ mat-sidenav-container {
         }
     }
 }
-.panel-closed {
 
-}
-
-.panel-expanded {
-    background-color: green;
+mat-drawer-inner-container  {
+    
 }
 
 mat-sidenav-content {
-    background-color: var(--jazz-orange);
+    background-color: var(--jazz-black);
 }
 
 mat-expansion-panel-header {

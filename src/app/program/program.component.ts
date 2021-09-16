@@ -194,7 +194,7 @@ export class ProgramComponent implements OnInit {
   }
   monthPanelClosed() {
     return {
-      backgroundColor: 'var(--jazz-white)',
+      backgroundColor: 'var(--jazz-orange)',
       // top: null
     }
   }
@@ -246,7 +246,9 @@ export class ProgramComponent implements OnInit {
   }
   gigPanelClosed() {
     return {
-      backgroundColor: 'var(--jazz-white)',
+      backgroundColor: 'var(--jazz-red)',
+      border: '2px solid var(--jazz-black)',
+      margin: '1rem'
       // position: 'static'
     }
   }
