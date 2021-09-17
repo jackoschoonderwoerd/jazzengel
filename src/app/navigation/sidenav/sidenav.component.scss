@@ -1,10 +1,21 @@
-.nav-list-item {
-  text-decoration: none;
-  font-size: 1.5em;
-  color: var(--jazz-red);
-
-
+.lists-container {
+  height: 100%;
+  border: 3px solid var(--jazz-orange);
 }
+mat-nav-list {
+  
+  a {
+      text-decoration: none;
+      font-size: 1.5rem;
+      color: var(--jazz-orange);
+      
+  }
+  .filler {
+    height: 100%;
+  }
+}
+// .nav-list-item {
+// }
  .hr {
    margin: 0px 0px 0px 15px;
    /* margin: 0px; */

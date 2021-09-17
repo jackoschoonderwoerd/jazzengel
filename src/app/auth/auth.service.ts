@@ -28,7 +28,7 @@ export class AuthService {
         this.store.dispatch(new UI.StopLoading);
         this.store.dispatch(new AUTH.SetAuthenticated(user.email));
       } else {
-        this.uiService.showSnackbar('You are not logged in', 'CLOSE', 5000);
+        // this.uiService.showSnackbar('You are not logged in', 'CLOSE', 5000);
         this.store.dispatch(new UI.StopLoading);
         this.store.dispatch(new AUTH.SetUnauthenticated());
       }

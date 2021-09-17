@@ -14,28 +14,30 @@ import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
   encapsulation: ViewEncapsulation.None
 })
 export class ShowcaseComponent implements OnInit {
-  
+
 
   artist$: Observable<Artist>
   booking$: Observable<Booking>
+  
 
   faWindowClose = faWindowClose
-  
+
 
 
 
   // artistId: string
-  
+
   constructor(
     private store: Store<fromRoot.GlobalState>,
-    ) { 
+  ) {
 
-    }
-    
-    ngOnInit(): void {
+  }
+
+  ngOnInit(): void {
+
     this.booking$ = this.store.select(fromRoot.getBooking);
     this.artist$ = this.store.select(fromRoot.getArtist);
-   
+
 
   }
 
@@ -44,6 +46,7 @@ export class ShowcaseComponent implements OnInit {
     setTimeout(() => {
       this.store.dispatch(new PROGRAM.SetArtist(null));
     }, 1000);
+    
   }
   scroll(e) {
     console.log(e);

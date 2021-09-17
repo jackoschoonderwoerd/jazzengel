@@ -1,6 +1,7 @@
-<section>
-  <div class="login-form" fxLayout fxLayoutAlign="center">
+<div class="section">
+  <div class="login-form" fxLayout="column" fxLayoutAlign="center">
     <form [formGroup]="loginForm" fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="center center" (ngSubmit)="onSubmitLoginForm()">
+      <div class="admin">ADMIN ONLY</div>
       <mat-form-field>
         <input
           matInput
@@ -16,7 +17,8 @@
           placeholder="PASSWORD">
       </mat-form-field>
       <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
-      <button *ngIf="!(isLoading$ | async)" mat-raised-button color="primary" type="submit">LOG IN</button>
+      <button *ngIf="!(isLoading$ | async)" mat-raised-button type="submit">LOG IN</button>
+      <button mat-raised-button class="cancel" (click)="onCancel()">CANCEL</button>
     </form>
   </div>
-</section>
+</div>

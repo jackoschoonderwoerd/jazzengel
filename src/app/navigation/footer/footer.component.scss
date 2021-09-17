@@ -1,12 +1,13 @@
 .footer-container {
   height: 100%;
   background-color: var(--jazz-black);
-  color: var(--jazz-white);
-
+  color: var(--jazz-orange);
+  
   @media (min-width: 481px) and (max-width: 767px) {
     // background-color: var(--background-color-2);
   }
   .footer-content {
+    letter-spacing: 5px;
     // color: var(--color-1);
     // @media (min-width: 481px) and (max-width: 767px) {
     //   color: var(--color-2)

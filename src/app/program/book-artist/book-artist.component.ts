@@ -101,7 +101,7 @@ export class BookArtistComponent implements OnInit {
     })
   }
   onRemove(bookingId) {
-    this.programService.removeBookingFromDb(bookingId);
+    this.programService.removeBookingFromDb(bookingId)
   }
   onReturnToProgram() {
     this.router.navigate(['/program'])

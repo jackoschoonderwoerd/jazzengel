@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators'
 import { AuthService } from '../auth.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from './../../app.reducer'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private store: Store<fromApp.GlobalState>
+    private store: Store<fromApp.GlobalState>,
+    private routern: Router
   ) { }
 
   ngOnInit(): void {
@@ -33,14 +35,17 @@ export class LoginComponent implements OnInit {
 
   initForm() {
     this.loginForm = new FormGroup({
-      email: new FormControl('jackoboes@gmail.com', {
+      email: new FormControl(null, {
         validators: [Validators.required, Validators.email]
       }),
-      password: new FormControl('123456', { 
+      password: new FormControl(null, { 
         validators: [Validators.required] })
     });
   }
   onSubmitLoginForm() {
     this.authService.login(this.loginForm.value)
+  }
+  onCancel() {
+    this.routern.navigate(['/home'])
   }
 }

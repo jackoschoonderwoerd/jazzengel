@@ -47,7 +47,7 @@ mat-sidenav-container {
                                         .gig-expansion-panel {
                                             background-color: red;
                                             padding-bottom: 0.5em; 
-                                            .gig-expansion-panel-header {
+                                            .gig-expansion-panel-header { // 26th artist-name
                                                 // border: 3px solid yellow;
                                                 
                                                 // background-color: var(--jazz-orange);
@@ -58,11 +58,12 @@ mat-sidenav-container {
                                                     // width: 2rem;
                                                     font-size: 1.3rem;
                                                     // border: 3px solid blue;
-                                                    width: 1rem;
-                                                    .gig-name-container {
+                                                    width: 0rem !important;
+                                                    .gig-name-container { // 26th
                                                         border: 1px solid var(--jazz-black);
                                                         border-radius: 3px;;
                                                         padding: .3rem;
+                                                        // width: 0;
                                                         
                                                         // border: 3px solid purple;
                                                     }                                     
@@ -72,6 +73,8 @@ mat-sidenav-container {
                                                     font-size: 1.3rem;
                                                     // width: 3rem;
                                                     // border: 3px solid green;
+                                                    align-content: flex-start !important;
+                                                    justify-content: flex-start !important;
                                                     
                                                 }
                                             }

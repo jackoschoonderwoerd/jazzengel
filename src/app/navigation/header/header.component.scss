@@ -10,7 +10,7 @@ mat-toolbar {
   .toolbar-left {
     width: 100%;
     .menu {
-      color: var(--jazz-white)
+      color: var(--jazz-orange)
     }
     .close-window-header {
       color: red;
@@ -35,8 +35,16 @@ mat-toolbar {
       width: 100%;
       
     }
-    .menu-list {
-      
+    .list-container {
+      .menu-list {
+        li {
+          color: var(--jazz-orange);
+          letter-spacing: 5px;
+          a { 
+            letter-spacing: 5px;
+          }
+        }
+      }
     }
   }
 }
@@ -44,4 +52,11 @@ mat-toolbar {
 
 hr {
  opacity: 1; 
+}
+.active-link {
+  padding: .5rem .5rem .5rem .7rem;
+  background-color: var(--jazz-orange);
+  color: var(--jazz-black);
+  border: 3px solid var(--jazz-black);
+  border-radius: 5px;
 }

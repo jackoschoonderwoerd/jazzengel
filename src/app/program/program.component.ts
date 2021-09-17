@@ -112,6 +112,7 @@ export class ProgramComponent implements OnInit {
 
   openedChange(e) {
     console.log(e)
+    this.store.dispatch( new PROGRAM.IsShowcaseOpen(e))
   }
 
   bookingSelected(booking: Booking) {

@@ -4,6 +4,7 @@
     .title {
       font-size: 2rem;
       font-weight: bold;
+      letter-spacing: .3rem;
     }
     .schedule {
       font-size: 1.5rem;
@@ -22,6 +23,20 @@
       font-style: italic;
     }
     .date {
+    }
+    .links {
+      margin-top: 1.5rem;
+      .header {
+        
+      }
+      ul {
+        li {
+          
+          a::before {
+            content: ' - '
+          }
+        }
+      }
     }
   }
 }
