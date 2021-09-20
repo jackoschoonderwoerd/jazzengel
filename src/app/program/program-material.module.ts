@@ -10,6 +10,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -27,6 +28,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
     MatInputModule,
     MatSelectModule,
     MatSidenavModule,
+    MatProgressSpinnerModule,
     
   ],
   exports: [
@@ -39,6 +41,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
     MatInputModule,
     MatSelectModule,
     MatSidenavModule,
+    MatProgressSpinnerModule
   ]
 })
 

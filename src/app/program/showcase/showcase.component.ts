@@ -18,6 +18,7 @@ export class ShowcaseComponent implements OnInit {
 
   artist$: Observable<Artist>
   booking$: Observable<Booking>
+  isLoading$: Observable<boolean>
   
 
   faWindowClose = faWindowClose
@@ -37,6 +38,7 @@ export class ShowcaseComponent implements OnInit {
 
     this.booking$ = this.store.select(fromRoot.getBooking);
     this.artist$ = this.store.select(fromRoot.getArtist);
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
 
 
   }

@@ -11,6 +11,8 @@ import { BookArtistComponent } from './book-artist/book-artist.component';
 import { Artist } from '../artists/artist.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteComponent } from '../shared/confirm-delete/confirm-delete.component';
+import * as UI from './../shared/ui.actions'
+import * as fromAuth from './../auth/auth.reducer'
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +28,18 @@ export class ProgramService {
   bookedYears: Year[];
   bookings$: Observable<Booking[]>
   
+  
 
   constructor(
     private db: AngularFirestore,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store<fromAuth.AuthState>,
     ) { }
 
 
 
   fetchBookings() {
+    this.store.dispatch(new UI.StartLoading);
     console.log('fetching')
     this.db
       .collection('bookings', ref => ref.orderBy('booking.listPosition'))
@@ -49,6 +54,7 @@ export class ProgramService {
           })
         })
       ).subscribe((res) => {
+        this.store.dispatch(new UI.StopLoading);
         // ? CLEAR !
         this.removeAllArtistsFromAllGigs();
         res.forEach(res => {

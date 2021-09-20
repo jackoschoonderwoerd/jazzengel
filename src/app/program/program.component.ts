@@ -30,6 +30,7 @@ export class ProgramComponent implements OnInit {
   bookedYears$: Observable<Year[]>
   isAuthenticated
   isAuthenticated$
+  isLoading$: Observable<boolean>
   yearOpen: number = 2022;
   monthOpen: number;
   dayOpen: number;
@@ -55,7 +56,7 @@ export class ProgramComponent implements OnInit {
 
   ngOnInit(): void {
     window.addEventListener('scroll', this.scroll, true);
-    
+    this.isLoading$ = this.store.select(fromApp.getIsLoading);
     this.dateOpen$ = this.store.select(fromApp.getDate);
     this.isAuthenticated$ = this.store.select(fromApp.getIsAuth);
     // this.years$ = this.programService.fetchBookings()

@@ -6,8 +6,11 @@
     [opened]="showcaseOpen$ | async">
     <app-showcase></app-showcase>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <main>
+  <mat-sidenav-content  fxLayout="column">
+    <div *ngIf="(isLoading$ | async)" class="mat-spinner-container" fxLayout fxLayoutAlign="center">
+      <mat-spinner  color="warn" ></mat-spinner>
+    </div>
+    <main *ngIf="!(isLoading$ | async)">
       <div class="wrapper" *ngIf="dateOpen$ | async; let dateOpen" fxLayout fxLayoutAlign="center">
         <div class="accordion-container">
           <mat-accordion class="year-accordion">

@@ -5,8 +5,13 @@ mat-sidenav-container {
         height: calc(100vh - 114px);
     }
     mat-sidenav {
+        background-color: red;
     }
     mat-sidenav-content {
+        .mat-spinner-container {
+            // border: 2px solid white;
+            padding: 3rem;
+        }
         main {
             background-color: var(--jazz-black);
             .wrapper {
@@ -58,10 +63,10 @@ mat-sidenav-container {
                                                     // width: 2rem;
                                                     font-size: 1.3rem;
                                                     // border: 3px solid blue;
-                                                    width: 0rem !important;
+                                                    // width: 0rem !important;
                                                     .gig-name-container { // 26th
                                                         border: 1px solid var(--jazz-black);
-                                                        border-radius: 3px;;
+                                                        border-radius: 3px;
                                                         padding: .3rem;
                                                         // width: 0;
                                                         
@@ -70,12 +75,12 @@ mat-sidenav-container {
                                                 }
                                                 .gig-panel-description {
                                                     color: var(--jazz-black);
+                                                    // color: red;
                                                     font-size: 1.3rem;
                                                     // width: 3rem;
                                                     // border: 3px solid green;
                                                     align-content: flex-start !important;
                                                     justify-content: flex-start !important;
-                                                    
                                                 }
                                             }
                                         }
@@ -90,8 +95,8 @@ mat-sidenav-container {
     }
 }
 
-mat-drawer-inner-container  {
-    
+.mat-drawer-inner-container  {
+    background-color: var(--jazz-black) ; 
 }
 
 mat-sidenav-content {
@@ -118,6 +123,14 @@ mat-expansion-panel-content {
     border: 1px solid var(--jazz-black);
     border-radius: 3px;
     margin: 3px;
+    .name-instrument-container {
+        .name-instrument {
+            .name {
+                margin-right: 1rem;
+                
+            }
+        }
+    }
 }
 .month-selected {
     background-color: var(--jazz-orange);

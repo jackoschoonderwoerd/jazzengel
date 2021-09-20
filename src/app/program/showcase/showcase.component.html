@@ -7,6 +7,7 @@
 
 <div class="showcase-wrapper" *ngIf="artist$ | async as artist" (scroll)="scroll($event)">
   <div class="header" fxLayout fxLayoutAlign="space-between">
+    <!-- <mat-spinner *ngIf="isLoading$ | async"></mat-spinner> -->
     <div class="gig-info">
       <div class="booking" *ngIf="booking$ | async as booking">
         {{booking.date[0] | numbertomonth | titlecase}} {{booking.date[1]}}, {{booking.date[2]}}
