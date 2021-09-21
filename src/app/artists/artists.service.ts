@@ -55,8 +55,8 @@ export class ArtistsService {
   }
 
   fetchArtistById(id) {
+
     console.log(id);
-    // return this.db.doc(`artists/${id}`)
     return this.db
       .collection('artists')
       .doc(id)
