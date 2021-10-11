@@ -14,11 +14,12 @@ html {
 }
 
 .close-window {
-  font-size: 24px;
   position: fixed;
   top: 70px;
   right: 10px;
+  font-size: 24px;
   opacity: 0.3;
+  
 }
 .showcase-wrapper {
   max-width: 500px;
@@ -62,6 +63,13 @@ html {
         padding: var(--rem-xs) 0;
       }
     }
+  }
+  .close-bottom {
+    // border: 1px solid red;
+    padding-right: 1rem;
+    font-size: 24px;
+    opacity: 0.3;
+    padding-bottom: 1rem;
   }
 }
 p {

@@ -124,9 +124,16 @@ mat-expansion-panel-content {
     border-radius: 3px;
     margin: 3px;
     .name-instrument-container {
-        .name-instrument {
-            .name {
-                margin-right: 1rem;
+        // border: 1px solid pink;
+        .chevron-name-instrument {
+            .chevron-name {
+                .chevron {
+                    color: var(--jazz-black);
+                    font-size: .9rem;
+                }
+                .name {
+                    margin-right: 1rem;
+                }
                 
             }
         }

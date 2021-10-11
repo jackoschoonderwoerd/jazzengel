@@ -1,8 +1,4 @@
-
-<fa-icon
-  class="close-window fade-in" 
-  [icon]="faWindowClose" 
-  (click)="onCloseShowcase()">
+<fa-icon class="close-window fade-in" [icon]="faWindowClose" (click)="onCloseShowcase()">
 </fa-icon>
 
 <div class="showcase-wrapper" *ngIf="artist$ | async as artist" (scroll)="scroll($event)">
@@ -12,7 +8,7 @@
       <div class="booking" *ngIf="booking$ | async as booking">
         {{booking.date[0] | numbertomonth | titlecase}} {{booking.date[1]}}, {{booking.date[2]}}
       </div>
-      <div class="artist-name-instrument" fxLayout fxLayoutGap="20px" >
+      <div class="artist-name-instrument" fxLayout fxLayoutGap="20px">
         <span class="name">
           {{artist.name}}
         </span>
@@ -24,9 +20,13 @@
     <!-- <button (click)="onCloseShowcase()">close showcase</button> -->
   </div>
   <img class="image" [src]="artist.imageUrl" alt="">
-  
-  
+
+
   <div class="biography" [innerHTML]="artist.biography"></div>
-  
+  <div class="close-bottom">
+    <fa-icon [icon]="faWindowClose" (click)="onCloseShowcase()" fxLayoutAlign="end">
+    </fa-icon>
+  </div>
+
   <!-- <button (click)="onCloseShowcase()">close showcase</button> -->
 </div>

@@ -10,8 +10,7 @@ import { Booking, Year } from './program.models';
 import { ProgramService } from './program.service';
 import { ArtistsService } from '../artists/artists.service';
 import { Artist } from '../artists/artist.model';
-import { relative } from '@angular/compiler-cli/src/ngtsc/file_system';
-import { transform } from 'typescript';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-program',
@@ -41,6 +40,7 @@ export class ProgramComponent implements OnInit {
   // bookedYears: Year[];
   test: boolean = true;
   pageY: number;
+  faChevronLeft = faChevronLeft
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {

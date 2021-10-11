@@ -104,13 +104,16 @@
                             (click)="bookingSelected(booking)">
                             <div
                               [ngClass]="{'large-font': !isAuthenticated}"
-                              class="name-instrument"
+                              class="chevron-name-instrument"
                               style="width: 100%;"
                               fxLayout
                               fxLayoutAlign="space-between center center">
-                              <span class="name">
-                                {{booking.artist.name | nametitlecase }}
-                              </span>
+                              <div class="chevron-name" fxLayoutGap=".5rem">
+                                <fa-icon class="chevron" [icon]="faChevronLeft"></fa-icon>
+                                <span class="name">
+                                  {{booking.artist.name | nametitlecase }}
+                                </span>
+                              </div>
                               <span class="instrument">
                                 {{booking.artist.instrument | titlecase}}
                               </span>
