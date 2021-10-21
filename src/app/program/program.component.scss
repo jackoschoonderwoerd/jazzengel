@@ -8,6 +8,10 @@ mat-sidenav-container {
         background-color: red;
     }
     mat-sidenav-content {
+        .show-all {
+            margin: .5rem;
+            font-size: 1.3rem;
+        }
         .mat-spinner-container {
             // border: 2px solid white;
             padding: 3rem;
@@ -55,7 +59,7 @@ mat-sidenav-container {
                                             .gig-expansion-panel-header { // 26th artist-name
                                                 // border: 3px solid yellow;
                                                 
-                                                // background-color: var(--jazz-orange);
+                                                background-color: var(--jazz-red) !important;
                                                 
                                                 
                                                 .gig-panel-title {
@@ -148,3 +152,12 @@ mat-expansion-panel-content {
 // .month-name-container {
 //     border: 1px solid black;
 // }
+.two-featured {
+    // color: pink;
+    font-size: 0.7rem;
+    padding: 0;
+} 
+
+.mat-expansion-toggle-indicator-after {
+    // background-color: lightgreen;
+}

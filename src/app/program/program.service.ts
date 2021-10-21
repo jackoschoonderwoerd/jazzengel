@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { ArtistsService } from '../artists/artists.service';
-import { Booking, Gig, Month, Year } from './program.models';
+import { Booking, Gig, Month, Sunday, Year } from './program.models';
 import * as fromRoot from './../app.reducer';
 import * as PROGRAM from './../program/program.actions'
 import { BookArtistComponent } from './book-artist/book-artist.component';
@@ -40,7 +40,6 @@ export class ProgramService {
 
   fetchBookings() {
     this.store.dispatch(new UI.StartLoading);
-    console.log('fetching')
     this.db
       .collection('bookings', ref => ref.orderBy('booking.listPosition'))
       .snapshotChanges()
@@ -58,7 +57,6 @@ export class ProgramService {
         // ? CLEAR !
         this.removeAllArtistsFromAllGigs();
         res.forEach(res => {
-          // console.log(res);
           const booking: Booking = res.booking
           booking.bookingId = res.bookingId
           this.addBookingToGig(booking);
@@ -112,7 +110,6 @@ export class ProgramService {
             return res;
           })
           .catch(err => {
-            console.log(err);
           })
       }
       return;
@@ -120,22 +117,15 @@ export class ProgramService {
   }
 
   removeGigFromProgram(bookingId) {
-    console.log(bookingId);
     this.years.forEach((year: Year) => {
       year.months.forEach((month: Month) => {
         month.gigs.forEach((gig: Gig) => {
           gig.bookings.forEach((booking: Booking) => {
-            console.log(booking.bookingId, bookingId)
           })
           const index = gig.bookings.findIndex((booking: Booking) => {
             return booking.bookingId == bookingId
           })
           gig.bookings.splice(index, 1);
-          
-          // const index = gig.bookings.findIndex((booking: Booking) => {
-          //   return (booking.bookingId === bookingId);
-          // })
-          // console.log(index);
         })
       } )
     })
@@ -150,17 +140,14 @@ export class ProgramService {
   }
 
   onGetOrderedGigs(dateNamesArray) {
-    console.log('onGetOrderedGigs');
     this.db.collection('bookings',
     ref => ref.orderBy('booking.listPosition')).get().subscribe(snaps => {
       snaps.forEach(snap => {
-        console.log(snap.id);
       })
     });
   }
 
   getGig(dateNamesArray): Observable<any> {
-    console.log(dateNamesArray);
     return this.db.collection('bookings', ref => ref.orderBy('booking.listPosition'))
     .snapshotChanges()
     .pipe(
@@ -181,7 +168,6 @@ export class ProgramService {
 
 
   removeAllArtistsFromAllGigs() {
-    console.log('removing');
     this.years.forEach((year: Year) => {
       year.months.forEach((month: Month) => {
         month.gigs.forEach((gig: Gig) => {
@@ -195,16 +181,20 @@ export class ProgramService {
   getYears(start, end) {
     this.removeGigsFromMonths();
     let sundays = []
-    // ? GET ALL DATES AS A STRING
-    const rawSundays = (this.getSundays(new Date(start), new Date(end)));
+    
+    const rawSundays = this.getSundays(new Date(start), new Date(end));
+    // RAWSUNDAYS: AN ARRAY WITH STRINGS, FORMATTED LIKE: '10/4/2021'
     // ? TURN THE STRING INTO AN ARRAY (MONTH-DATE-YEAR)
     rawSundays.forEach((sunday: string) => {
       sundays.push(sunday.split('/'))
     })
-    sundays = this.cleanUpFirstSunday(sundays);
+    
     sundays = this.sundaysToInt(sundays);
+    // console.log(sundays);
 
-    // ? ADD YEARS 
+    this.addMyYears(sundays)
+
+
     for (let i = 0; i < sundays.length; i++) {
       if (!this.yearNames.includes(sundays[i][2]) || this.years.length === 0) {
         this.yearNames.push(sundays[i][2]);
@@ -214,6 +204,7 @@ export class ProgramService {
         })
       }
     }
+    console.log(this.years)
     // ? ADD MONTHS
     for (let i = 0; i < sundays.length; i++) {
       this.years.forEach((newYear: Year) => {
@@ -229,6 +220,9 @@ export class ProgramService {
       })
     }
     // ? ADD GIGS
+
+    // this.addGigs(sundays)
+
     // ALL SUNDAYS
     for (let i = 0; i < sundays.length; i++) {;
       // EVERY YEAR
@@ -252,24 +246,79 @@ export class ProgramService {
     return this.years
   }
 
+  addMyYears(sundays: Sunday[]) {
+    const myYears: Year[] = [];
+    console.log(myYears.length);
+    sundays.forEach((sunday) => {
+      if(myYears.length === 0) {
+        myYears.push({
+          yearName: sunday[2],
+          months: []
+        })
+      } else {
+        myYears.forEach((year: Year) => {
+          if(year.yearName !== sunday[2]) {
+            myYears.push({
+              yearName: sunday[2],
+              months: []
+            })
+          }
+        })
+      }
+      // myYears.forEach((year) => {
+      //   console.log(year.yearName, sunday[2]);
+      //   if(year.yearName !== sunday[2]) {
+      //     myYears.push({
+      //       yearName: sunday[2],
+      //       months: []
+      //     })
+      //   }
+      // })
+    })
+    console.log(myYears.length);
+    console.log(myYears);    
+  }
+
+  addGigs(sundays) {
+    for (let i = 0; i < sundays.length; i++) {;
+      // EVERY YEAR
+      this.years.forEach((newYear: Year) => {
+        // EVERY MONTH IN THAT YEAR
+        newYear.months.forEach((month: Month) => {
+          // IF THE FIRST ELEMENT IN THE SUNDAY-ARRAY CORRESPONDS WITH THE MONTH-NAME
+          if (sundays[i][0] === month.name) {
+            if (!this.gigNames.includes(sundays[i][1]) || this.gigNames.length === 0) {
+              this.gigNames.push(sundays[i][1]);
+              month.gigs.push({
+                name: sundays[i][1],
+                bookings: []
+              })
+            }
+          }
+        })
+        this.gigNames = [];
+      })
+    }
+    return this.years
+  }
+  
+
   private getSundays(startDate, endDate) {
     var Sundays = [];
     var day = startDate.getDay();
+    // FIND THE FIRST SUNDAY BETWEEN STARTDATE AND ENDDATE
     if (day != 0) startDate.setDate(startDate.getDate() + (7 - day));
-    Sundays[0] = startDate.toLocaleString('en-US');
+    // CLEAN UP FIRST SUNDAY
+    Sundays[0] = startDate.toLocaleString('en-US').split(',')[0];
+    console.log(Sundays[0]);
     while (startDate) {
       startDate.setDate(startDate.getDate() + 7);
       if (startDate > endDate) {
         return Sundays
       };
       Sundays.push(startDate.toLocaleDateString('en-US'));
+      
     }
-  }
-
-  private cleanUpFirstSunday(sundays) {
-    sundays[0][2] = sundays[0][2].split(',')
-    sundays[0][2] = sundays[0][2][0]
-    return sundays;
   }
 
   private sundaysToInt(sundays) {
@@ -278,6 +327,7 @@ export class ProgramService {
       sunday[1] = parseInt(sunday[1])
       sunday[2] = parseInt(sunday[2])
     })
+    console.log(sundays);
     return sundays;
   }
 }

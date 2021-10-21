@@ -6,11 +6,13 @@ import { GlobalState } from '../app.reducer';
 import * as fromApp from './../app.reducer'
 import * as fromProgram from './../program/program.reducer'
 import * as PROGRAM from './../program/program.actions';
-import { Booking, Year } from './program.models';
+import { Booking, Gig, Year } from './program.models';
 import { ProgramService } from './program.service';
 import { ArtistsService } from '../artists/artists.service';
 import { Artist } from '../artists/artist.model';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import { calculateDateMonthsFromNow, setStartingDateString } from './create-calender';
+// import { getYears, sayHi } from './create-calender';
 
 @Component({
   selector: 'app-program',
@@ -25,7 +27,6 @@ export class ProgramComponent implements OnInit {
   isAdmin$: Observable<boolean>;
   condition: boolean = true;
   years: Year[];
-  years$: Observable<Year[]>
   bookedYears$: Observable<Year[]>
   isAuthenticated
   isAuthenticated$
@@ -41,10 +42,11 @@ export class ProgramComponent implements OnInit {
   test: boolean = true;
   pageY: number;
   faChevronLeft = faChevronLeft
+  startingDayString: string;
+  showAll: boolean = false;
 
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll(event) {
-    console.log(event)
   }
 
   constructor(
@@ -55,77 +57,62 @@ export class ProgramComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    window.addEventListener('scroll', this.scroll, true);
+    // sayHi()
     this.isLoading$ = this.store.select(fromApp.getIsLoading);
     this.dateOpen$ = this.store.select(fromApp.getDate);
     this.isAuthenticated$ = this.store.select(fromApp.getIsAuth);
-    // this.years$ = this.programService.fetchBookings()
     this.store.subscribe(storeContent => {
-      console.log(storeContent);
       this.isAuthenticated = storeContent.auth.isAuthenticated
     })
     this.store.subscribe(storeContent => {
       this.showcaseOpen = storeContent.program.isShowcaseOpen
-      console.log('this.showcaseOpen', this.showcaseOpen);
     })
     this.showcaseOpen$ = this.store.select(fromApp.isShowcaseOpen)
-    
-    // this.programService.yearsChanged.subscribe((years: Year[]) => {
-    //   this.years = years;
-    // })
-    const today = new Date()
-    const monthNow = today.getMonth() + 1;
-    const dateNow = today.getDate();
-    const yearNow = today.getFullYear();
-    const todayString = `${monthNow}/${dateNow}/${yearNow}`
-    console.log(today)
-    // const sixMonthsFromNow = today.getMonth() + 6;
-    
-    const dateSixMonthsFromNow = this.calculateDateSixMonthsFromNow(monthNow, dateNow, yearNow);
-    console.log(dateSixMonthsFromNow)
-
-    this.years = this.programService.getYears(todayString, dateSixMonthsFromNow);
-    // this.bookedYears$ = this.store.select(fromApp.getYears);
+    this.years = this.programService.getYears(setStartingDateString(), calculateDateMonthsFromNow(6));
     this.programService.removeAllArtistsFromAllGigs()
     this.isAdmin$ = this.store.select(fromApp.getIsAdmin);
     this.programService.fetchBookings();
-    this.years$ = this.store.select(fromApp.getYears);
   }
 
-  scroll(event: Event): void {
-    // console.log(event);
-  }
 
+  onShowAll() {
+    if(this.showAll === false) {
+      this.showAll = true;
+      this.years = this.programService.getYears('9/1/2021', calculateDateMonthsFromNow(6));
+      this.programService.fetchBookings();
+    } else if (this.showAll === true) {
+      this.showAll = false;
+      this.years = this.programService.getYears(setStartingDateString(), calculateDateMonthsFromNow(6));
+      this.programService.fetchBookings();
+    }
+  }
 
 
   onGigDate(monthName: number, gigName: number, yearName: number) {
-    // const selectedDate = new Date(yearName, monthName - 1, gigName);
     const selectedDateNames = [monthName, gigName, yearName]
     if(this.isAuthenticated) {
       this.router.navigate(['program/book-artist', {dateNames: selectedDateNames}])
     }
   }
 
-  updateProgram() {
-    // this.years = this.programService.getYears(new Date(), new Date('6/30/22'))
-    this.programService.fetchBookings()
-  }
+
 
   openedChange(e) {
-    console.log(e)
     this.store.dispatch( new PROGRAM.IsShowcaseOpen(e))
   }
 
   bookingSelected(booking: Booking) {
-    this.artistService.fetchArtistById(booking.artist.artistId)
-    .subscribe((artist: Artist) => {
-      console.log(artist);
-      this.store.dispatch(new PROGRAM.SetArtist(artist));
-      this.store.dispatch(new PROGRAM.IsShowcaseOpen(true));
-    })
-    this.store.dispatch(new PROGRAM.SetDate(booking.date));
-    this.store.dispatch(new PROGRAM.SetArtistId(booking.artist.artistId));
-    this.store.dispatch(new PROGRAM.SetBooking(booking))
+    // DO NOT OPEN THE SHOWCASE WHEN THE ARTIST'S NAME IS 'tba'
+    if(booking.artist.name !== 'tba') {
+      this.artistService.fetchArtistById(booking.artist.artistId)
+      .subscribe((artist: Artist) => {
+        this.store.dispatch(new PROGRAM.SetArtist(artist));
+        this.store.dispatch(new PROGRAM.IsShowcaseOpen(true));
+      })
+      this.store.dispatch(new PROGRAM.SetDate(booking.date));
+      this.store.dispatch(new PROGRAM.SetArtistId(booking.artist.artistId));
+      this.store.dispatch(new PROGRAM.SetBooking(booking))
+    }
   }
 
   onDeleteBooking(id) {
@@ -136,45 +123,7 @@ export class ProgramComponent implements OnInit {
     }
   }
 
-  calculateDateSixMonthsFromNow(month: number, date: number, year: number): string  {
-    const monthsAhead: number = 6
-    if(month + monthsAhead > 11) {
-      month = month + 6 - 12;
-      year = year + 1
-    }
-    console.log(month, date, year);
-    return `${month}/31/${year}`
-  }
-
-
-
-  gigExpansionPanelSelected(e) {
-    console.log(e);
-  }
-  getColor() {
-    return 'yellow';
-  }
-  monthPanelSelected(e) {
-    // console.log(e);
-    // window.scroll(0, e.srcElement.offsetTop)
-    window.scroll(0, 500)
-  }
-
-
-  gigPanelSelected(e) {
-    console.log(e);
-    // console.log(e.srcElement.offsetTop);
-    // var x = e.pageX 
-    // var y = e.pageY
-    // this.pageY = e.pageY
-    // console.log('pageX:', x)
-    // console.log('pageY:', y)
-    // console.log('e.srcElement.offsetTop: ', e.srcElement.offsetTop)
-    // console.log('e.srcElement.parentElement.offsetTop: ', e.srcElement.parentElement.offsetTop)
-    // window.scrollTo(0, 100);
-    // window.scroll(0, 100);
-    // window.scroll(0, e.srcElement.offsetTop)
-  }
+  // ============= DYNAMIC CSS ===================
 
   monthPanelExpanded() {
     return {
@@ -220,12 +169,13 @@ export class ProgramComponent implements OnInit {
 
 
  
-  gigTitleExpanded() { // date 28
+  gigTitleExpanded(bookings: Booking[]) { // date 28
     return {
+      // border: '5px solid green',
       color: 'var(--jazz-black)',
       fontSize: '1.5rem',
       fontWeight: '500',
-      border: '1px solid black',
+      // border: '1px solid black',
       padding: '8px 8px 5px 8px',
       borderRadius: '4px',
       backgroundColor: 'var(--jazz-green)'
@@ -248,13 +198,17 @@ export class ProgramComponent implements OnInit {
   gigTitleClosed () {
 
   }
-  gigDescriptionExpanded () { // featured artist name list
-    return {
-      color: 'purple',
-      textTransform: 'uppercase',
-      fontSize: '1.5rem',
-      
-    }
+  gigDescriptionExpanded (bookings: Booking[]) { // featured artist name list
+    // if(this.getNumberFeatured(bookings) === 2) {
+    //   return {
+    //   }
+    // } else {
+    //   return {
+    //     color: 'purple',
+    //     textTransform: 'uppercase',
+    //     fontSize: '1.5rem',
+    //   }
+    // }
   }
   gigDescriptionClosed () {
 
@@ -271,18 +225,73 @@ export class ProgramComponent implements OnInit {
   gigListItemTitleClosed() {
 
   }
-  featuredArtistNameExpanded() { // BEN VAN DEN DUNGEN
-    return {
-      color: 'var(--jazz-black)',
-      // fontSize: '1.5rem',
-      fontWeight: '500',
-      border: '1px solid black',
-      padding: '8px 8px 5px 8px',
-      borderRadius: '4px',
-      backgroundColor: 'var(--jazz-green)'
+  featuredArtistNameExpanded(bookings: Booking[]) { // BEN VAN DEN DUNGEN
+    if(this.getNumberFeatured(bookings) === 2) {
+      return {
+        border: '1px solid black',
+        color: 'var(--jazz-black)',
+        fontWeight: '500',
+        // border: '1px solid black',
+        padding: '3px 8px 3px 8px',
+        borderRadius: '4px',
+        backgroundColor: 'var(--jazz-green)',
+        marginBottom: '4px'
+      }  
+    } else {
+      return {
+        color: 'var(--jazz-black)',
+        // fontSize: '1.5rem',
+        fontWeight: '500',
+        border: '1px solid black',
+        padding: '3px 8px 3px 8px',
+        borderRadius: '4px',
+        backgroundColor: 'var(--jazz-green)',
+      }
     }
   }
+
   featuredArtistNameClosed() {
 
+
+  }
+  private getNumberFeatured(bookings: Booking[]) {
+    let numberFeatured = 0
+    bookings.forEach((booking: Booking) => {
+      if(booking.isFeatured) {
+        numberFeatured++
+        // if(numberFeatured === 2) {
+        // }
+      }
+    })
+    // if(numberFeatured === 2) {
+    // }
+    return numberFeatured;
+  }
+
+  numberFeatured(bookings: Booking[]) {
+    // ADJUSTS THE SIZE OF THE MAT-EXPANSION-PANEL-HEADER DEPENDING ON THE AMOUNT OF FEATURED ARTISTS
+    const numberFeatured = this.getNumberFeatured(bookings);
+    switch(numberFeatured) {
+      case 0: {
+        return;
+      }
+      case 1:
+        return {
+          minHeight: '40px',  
+        }
+      case 2: {
+        return {
+          minHeight: '80px',  
+        }
+      }
+      case 3: {
+        return {
+          minHeight: '100px',
+        }
+      }
+      default: {
+        console.log(numberFeatured)
+      }
+    }
   }
 }

@@ -6,7 +6,7 @@ import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: '', redirectTo: 'program', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
   { path: 'program', loadChildren: () => import('./program/program.module').then (m => m.ProgramModule)},
   { path: 'artists', loadChildren: () => import('./artists/artists.module').then(m => m.ArtistsModule), canLoad: [AuthGuard]},

@@ -29,3 +29,8 @@ export interface Program {
   years: Year[]
 }
 
+export interface Sunday {
+  month: number,
+  date: number,
+  year: number
+}
