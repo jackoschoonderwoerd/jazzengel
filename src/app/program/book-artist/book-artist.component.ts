@@ -64,7 +64,7 @@ export class BookArtistComponent implements OnInit {
     this.programService.getGig(this.dateNamesArray).subscribe(data => {
       console.log(data);
     })
-    this.programService.onGetOrderedGigs(this.dateNamesArray);
+    // this.programService.onGetOrderedGigs(this.dateNamesArray);
   }
 
 

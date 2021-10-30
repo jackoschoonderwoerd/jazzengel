@@ -79,10 +79,12 @@ export class ProgramComponent implements OnInit {
     if(this.showAll === false) {
       this.showAll = true;
       this.years = this.programService.getYears('9/1/2021', calculateDateMonthsFromNow(6));
+      console.log(this.years)
       this.programService.fetchBookings();
     } else if (this.showAll === true) {
       this.showAll = false;
       this.years = this.programService.getYears(setStartingDateString(), calculateDateMonthsFromNow(6));
+      console.log(this.years);
       this.programService.fetchBookings();
     }
   }

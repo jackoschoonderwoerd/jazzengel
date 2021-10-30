@@ -1,4 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,18 +8,20 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  language: string = 'dutch';
 
-  // @HostListener('window:scroll', ['$event']) // for window scroll events
-  // onScroll(event) {
-  //   console.log(event)
-  // }
+  
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
-
+  
   ngOnInit(): void {
+    console.log(this.language)
   }
-  onScroll(e) {
-    console.log(e)
+  selectLanguage(language: string) {
+    this.language = language
+    // console.log(language)
   }
 }

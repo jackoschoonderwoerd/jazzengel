@@ -13,13 +13,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteComponent } from '../shared/confirm-delete/confirm-delete.component';
 import * as UI from './../shared/ui.actions'
 import * as fromAuth from './../auth/auth.reducer'
+import { addGigsToMonthArray, addMonthsGigsToYearArray, yearsMonthsArray } from './create-calender';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProgramService {
 
-  yearNames = [];
+  yearNames: string[] = [];
   monthNames = [];
   gigNames = [];
   years: Year[] = [];
@@ -64,16 +65,8 @@ export class ProgramService {
       })
   }
 
-  addBookingToDb(booking: Booking) {
-    return this.db.collection('bookings').add({
-      booking
-    })
-    .then(res => {
-      return res;
-    })
-  }
-
-  addBookingToGig(booking: Booking) { 
+  addBookingToGig(booking: Booking) {
+    // FILLS UP ALL THE GIGS WITH ALL THE BOOKINGS
     this.years.forEach((year: Year) => {
       if (year.yearName === booking.date[2]) {
         year.months.forEach((month: Month) => {
@@ -96,6 +89,16 @@ export class ProgramService {
     })
   }
 
+  addBookingToDb(booking: Booking) {
+    return this.db.collection('bookings').add({
+      booking
+    })
+    .then(res => {
+      return res;
+    })
+  }
+
+
   removeBookingFromDb(bookingId) {
     const message = 'This will remove the artist from the gig';
     const dialogRef = this.dialog.open(ConfirmDeleteComponent, {data: {message: message}});
@@ -116,20 +119,20 @@ export class ProgramService {
     })
   }
 
-  removeGigFromProgram(bookingId) {
-    this.years.forEach((year: Year) => {
-      year.months.forEach((month: Month) => {
-        month.gigs.forEach((gig: Gig) => {
-          gig.bookings.forEach((booking: Booking) => {
-          })
-          const index = gig.bookings.findIndex((booking: Booking) => {
-            return booking.bookingId == bookingId
-          })
-          gig.bookings.splice(index, 1);
-        })
-      } )
-    })
-  }
+  // removeGigFromProgram(bookingId) {
+  //   this.years.forEach((year: Year) => {
+  //     year.months.forEach((month: Month) => {
+  //       month.gigs.forEach((gig: Gig) => {
+  //         gig.bookings.forEach((booking: Booking) => {
+  //         })
+  //         const index = gig.bookings.findIndex((booking: Booking) => {
+  //           return booking.bookingId == bookingId
+  //         })
+  //         gig.bookings.splice(index, 1);
+  //       })
+  //     } )
+  //   })
+  // }
 
   removeGigsFromMonths() {
     this.years.forEach((year: Year) => {
@@ -188,119 +191,146 @@ export class ProgramService {
     rawSundays.forEach((sunday: string) => {
       sundays.push(sunday.split('/'))
     })
-    
+    // TURN EACH SUNDAY INTO AN INT-ARRAY [M, D, Y]
     sundays = this.sundaysToInt(sundays);
     // console.log(sundays);
 
-    this.addMyYears(sundays)
+    
 
 
-    for (let i = 0; i < sundays.length; i++) {
-      if (!this.yearNames.includes(sundays[i][2]) || this.years.length === 0) {
-        this.yearNames.push(sundays[i][2]);
-        this.years.push({
-          yearName: sundays[i][2],
-          months: []
-        })
-      }
-    }
-    console.log(this.years)
+    // for (let i = 0; i < sundays.length; i++) {
+    //   if (!this.yearNames.includes(sundays[i][2]) || this.years.length === 0) {
+    //     this.yearNames.push(sundays[i][2]);
+    //     this.years.push({
+    //       yearName: sundays[i][2],
+    //       months: []
+    //     })
+    //   }
+    // }
+
+    this.years = yearsMonthsArray(sundays)
+    
+    // let years: Year[] = [];
+    // for (let i = 0; i < sundays.length; i++) {
+    //   console.log(sundays[i][2])
+    //   if(years.length === 0) {
+    //     years.push({
+    //       yearName: sundays[i][2],
+    //       months: []
+    //     })
+    //   } else {
+    //     const index = years.findIndex((year: Year) => {
+    //       return year.yearName === sundays[i][2];
+    //     })
+    //     console.log(index);
+    //     if(index === -1) {
+    //       years.push({
+    //         yearName: sundays[i][2],
+    //         months: []
+    //       })
+    //     }
+    //   }
+    // }
+    
+    // console.log(years);
+
+
+    this.years = addMonthsGigsToYearArray(this.years, sundays)
+
     // ? ADD MONTHS
-    for (let i = 0; i < sundays.length; i++) {
-      this.years.forEach((newYear: Year) => {
-        if (sundays[i][2] === newYear.yearName) {
-          if (!this.monthNames.includes(sundays[i][0]) || this.monthNames.length === 0) {
-            this.monthNames.push(sundays[i][0]);
-            newYear.months.push({
-              name: sundays[i][0],
-              gigs: []
-            })
-          }
-        }
-      })
-    }
+    // for (let i = 0; i < sundays.length; i++) {
+    //   this.years.forEach((newYear: Year) => {
+    //     if (sundays[i][2] === newYear.yearName) {
+    //       if (!this.monthNames.includes(sundays[i][0]) || this.monthNames.length === 0) {
+    //         this.monthNames.push(sundays[i][0]);
+    //         newYear.months.push({
+    //           name: sundays[i][0],
+    //           gigs: []
+    //         })
+    //       }
+    //     }
+    //   })
+    // }
     // ? ADD GIGS
 
     // this.addGigs(sundays)
 
     // ALL SUNDAYS
-    for (let i = 0; i < sundays.length; i++) {;
-      // EVERY YEAR
-      this.years.forEach((newYear: Year) => {
-        // EVERY MONTH IN THAT YEAR
-        newYear.months.forEach((month: Month) => {
-          // IF THE FIRST ELEMENT IN THE SUNDAY-ARRAY CORRESPONDS WITH THE MONTH-NAME
-          if (sundays[i][0] === month.name) {
-            if (!this.gigNames.includes(sundays[i][1]) || this.gigNames.length === 0) {
-              this.gigNames.push(sundays[i][1]);
-              month.gigs.push({
-                name: sundays[i][1],
-                bookings: []
-              })
-            }
-          }
-        })
-        this.gigNames = [];
-      })
-    }
+
+    this.years = addGigsToMonthArray(this.years, sundays) 
+
+    // for (let i = 0; i < sundays.length; i++) {;
+    //   // EVERY YEAR
+    //   this.years.forEach((newYear: Year) => {
+    //     // EVERY MONTH IN THAT YEAR
+    //     newYear.months.forEach((month: Month) => {
+    //       // IF THE FIRST ELEMENT IN THE SUNDAY-ARRAY CORRESPONDS WITH THE MONTH-NAME
+    //       if (sundays[i][0] === month.name) {
+    //         if (!this.gigNames.includes(sundays[i][1]) || this.gigNames.length === 0) {
+    //           this.gigNames.push(sundays[i][1]);
+    //           month.gigs.push({
+    //             name: sundays[i][1],
+    //             bookings: []
+    //           })
+    //         }
+    //       }
+    //     })
+    //     this.gigNames = [];
+    //   })
+    // }
     return this.years
   }
 
-  addMyYears(sundays: Sunday[]) {
-    const myYears: Year[] = [];
-    console.log(myYears.length);
-    sundays.forEach((sunday) => {
-      if(myYears.length === 0) {
-        myYears.push({
-          yearName: sunday[2],
-          months: []
-        })
-      } else {
-        myYears.forEach((year: Year) => {
-          if(year.yearName !== sunday[2]) {
-            myYears.push({
-              yearName: sunday[2],
-              months: []
-            })
-          }
-        })
-      }
-      // myYears.forEach((year) => {
-      //   console.log(year.yearName, sunday[2]);
-      //   if(year.yearName !== sunday[2]) {
-      //     myYears.push({
-      //       yearName: sunday[2],
-      //       months: []
-      //     })
-      //   }
-      // })
-    })
-    console.log(myYears.length);
-    console.log(myYears);    
-  }
 
-  addGigs(sundays) {
-    for (let i = 0; i < sundays.length; i++) {;
-      // EVERY YEAR
-      this.years.forEach((newYear: Year) => {
-        // EVERY MONTH IN THAT YEAR
-        newYear.months.forEach((month: Month) => {
-          // IF THE FIRST ELEMENT IN THE SUNDAY-ARRAY CORRESPONDS WITH THE MONTH-NAME
-          if (sundays[i][0] === month.name) {
-            if (!this.gigNames.includes(sundays[i][1]) || this.gigNames.length === 0) {
-              this.gigNames.push(sundays[i][1]);
-              month.gigs.push({
-                name: sundays[i][1],
-                bookings: []
-              })
-            }
-          }
-        })
-        this.gigNames = [];
-      })
-    }
-    return this.years
-  }
+
+  // addMyYears(sundays: Sunday[]) {
+  //   const myYears: Year[] = [];
+  //   console.log(myYears.length);
+  //   sundays.forEach((sunday) => {
+  //     if(myYears.length === 0) {
+  //       myYears.push({
+  //         yearName: sunday[2],
+  //         months: []
+  //       })
+  //     } else {
+  //       myYears.forEach((year: Year) => {
+  //         if(year.yearName !== sunday[2]) {
+  //           myYears.push({
+  //             yearName: sunday[2],
+  //             months: []
+  //           })
+  //         }
+  //       })
+  //     }
+  //   })
+  //   console.log(myYears.length);
+  //   console.log(myYears);    
+  // }
+
+
+
+  // addGigs(sundays) {
+  //   for (let i = 0; i < sundays.length; i++) {;
+  //     // EVERY YEAR
+  //     this.years.forEach((newYear: Year) => {
+  //       // EVERY MONTH IN THAT YEAR
+  //       newYear.months.forEach((month: Month) => {
+  //         // IF THE FIRST ELEMENT IN THE SUNDAY-ARRAY CORRESPONDS WITH THE MONTH-NAME
+  //         if (sundays[i][0] === month.name) {
+  //           if (!this.gigNames.includes(sundays[i][1]) || this.gigNames.length === 0) {
+  //             this.gigNames.push(sundays[i][1]);
+  //             month.gigs.push({
+  //               name: sundays[i][1],
+  //               bookings: []
+  //             })
+  //           }
+  //         }
+  //       })
+  //       this.gigNames = [];
+  //     })
+  //   }
+  //   return this.years
+  // }
   
 
   private getSundays(startDate, endDate) {

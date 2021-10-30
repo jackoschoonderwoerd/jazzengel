@@ -8,13 +8,6 @@
   </mat-sidenav>
   <mat-sidenav-content 
     fxLayout="column">
-    <button
-      class="show-all"
-      *ngIf="isAuthenticated$ | async"
-      mat-raised-button
-      (click)="onShowAll()">
-      {{showAll ? 'show starting from current date' : 'show all dates'}}
-    </button>
     <div *ngIf="(isLoading$ | async)" class="mat-spinner-container" fxLayout fxLayoutAlign="center">
       <mat-spinner color="warn"></mat-spinner>
     </div>
@@ -22,11 +15,18 @@
       <div class="wrapper" *ngIf="dateOpen$ | async; let dateOpen" fxLayout fxLayoutAlign="center">
         <div class="accordion-container">
           <mat-accordion class="year-accordion">
+            <button
+              class="show-all"
+              *ngIf="isAuthenticated$ | async"
+              mat-raised-button
+              (click)="onShowAll()">
+              {{showAll ? 'show starting from current date' : 'show all dates'}}
+            </button>
             <mat-expansion-panel 
-              class="year-expansion-panel" 
-              hideToggle 
-              *ngFor="let year of years"
-              [expanded]="year.yearName === dateOpen[2]">
+            class="year-expansion-panel" 
+            hideToggle 
+            *ngFor="let year of years"
+            [expanded]="year.yearName === dateOpen[2]">
               <mat-expansion-panel-header 
                 class="year-expansion-panel-header">
                 <mat-panel-title 
@@ -150,6 +150,7 @@
           </mat-accordion>
         </div>
       </div>
+      
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
