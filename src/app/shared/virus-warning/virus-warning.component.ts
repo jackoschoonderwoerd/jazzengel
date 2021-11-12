@@ -10,9 +10,12 @@ export class VirusWarningComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<any>
-  ) { }
-
+  ) { 
+    decodeURIComponent
+  }
+  
   ngOnInit(): void {
     this.dialogRef.updateSize('300px')
+    this.dialogRef.disableClose = true 
   }
 }
